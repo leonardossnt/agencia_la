@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "93350268490",
+    "project_id": "agencia-la",
+    "storage_bucket": "agencia-la.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93350268490:android:386e07bf6cdab7e58320b3",
+        "android_client_info": {
+          "package_name": "com.agenciala.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93350268490-9ba2l0h0h3v0lsrvnkd4hfdnjvbj006u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRNfsRKrWKOcZHz6PAtazN5O9tch-givo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93350268490-9ba2l0h0h3v0lsrvnkd4hfdnjvbj006u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93350268490-gl1sr99jhql3gei90ljdj9ktr4lspvm0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.agenciala.agenciaLa"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
