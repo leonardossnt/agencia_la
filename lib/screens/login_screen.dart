@@ -11,19 +11,22 @@ class LoginScreen extends StatelessWidget {
         body: Center(
             child: SingleChildScrollView(
                 child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const <Widget>[
-            SizedBox(height: 24),
-            ScreenTitle(),
-            SizedBox(height: 72),
-            Logo(),
-            SizedBox(height: 48),
-            LoginForm(),
-            SizedBox(height: 32),
-            SignUpText(),
-            SizedBox(height: 32)
-          ],
-        ))));
+                  mainAxisSize: MainAxisSize.min,
+                  children: const <Widget>[
+                    SizedBox(height: 18),
+                    ScreenTitle(),
+                    SizedBox(height: 84),
+                    Logo(),
+                    SizedBox(height: 48),
+                    LoginForm(),
+                    SizedBox(height: 48),
+                    SignUpText(),
+                    SizedBox(height: 60)
+                  ],
+                )
+            )
+        )
+    );
   }
 }
 
@@ -33,17 +36,17 @@ class ScreenTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24), 
-      child: Align(
-        alignment: Alignment.centerLeft, 
-        child: Text("Bem vindo!",
-          style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-              color: AgenciaLaColors.darkPrimary
-          )
+        padding: EdgeInsets.symmetric(horizontal: 18),
+        child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text("Bem vindo!",
+                style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: AgenciaLaColors.darkPrimary
+                )
+            )
         )
-      )
     );
   }
 }
@@ -53,7 +56,10 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/images/agenciala.png');
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 84),
+      child: Image.asset('assets/images/agenciala.png')
+    );
   }
 }
 
@@ -73,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 48),
+      padding: const EdgeInsets.symmetric(horizontal: 36),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -111,7 +117,7 @@ class _LoginFormState extends State<LoginForm> {
                   setState(() {
                     _isPasswordObscured = !_isPasswordObscured;
                   });
-                },
+                  },
               ),
               border: OutlineInputBorder(
                   borderSide: const BorderSide(
