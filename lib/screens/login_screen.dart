@@ -13,13 +13,15 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const <Widget>[
+            SizedBox(height: 24),
             ScreenTitle(),
-            SizedBox(
-              height: 48,
-            ),
+            SizedBox(height: 72),
             Logo(),
             SizedBox(height: 48),
-            LoginForm()
+            LoginForm(),
+            SizedBox(height: 32),
+            SignUpText(),
+            SizedBox(height: 32)
           ],
         ))));
   }
@@ -30,11 +32,19 @@ class ScreenTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Bem vindo!",
-        style: TextStyle(
-            fontSize: 36,
-            fontWeight: FontWeight.bold,
-            color: AgenciaLaColors.darkPrimary));
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24), 
+      child: Align(
+        alignment: Alignment.centerLeft, 
+        child: Text("Bem vindo!",
+          style: TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.bold,
+              color: AgenciaLaColors.darkPrimary
+          )
+        )
+      )
+    );
   }
 }
 
@@ -115,8 +125,6 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: 16),
           const LoginButton(),
-          const SizedBox(height: 32),
-          const SignUpText(),
         ],
       ),
     );
