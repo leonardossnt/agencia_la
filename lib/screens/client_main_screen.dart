@@ -23,7 +23,9 @@ class ClientMainScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Você está logado!"),
+            Text("Bem vindo(a), ${Auth.getCurrentUser()?.email}"),
+            const SizedBox(height: 16),
+            const Text("Você está logado(a)!"),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 36),
