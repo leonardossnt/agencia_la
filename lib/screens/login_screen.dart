@@ -9,23 +9,23 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AgenciaLaColors.background,
         body: Center(
-            child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const <Widget>[
-                    SizedBox(height: 18),
-                    ScreenTitle(),
-                    SizedBox(height: 84),
-                    Logo(),
-                    SizedBox(height: 48),
-                    LoginForm(),
-                    SizedBox(height: 48),
-                    SignUpText(),
-                    SizedBox(height: 60)
-                  ],
-                )
-            )
-        )
+          child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const <Widget>[
+                  SizedBox(height: 18),
+                  ScreenTitle(),
+                  SizedBox(height: 84),
+                  Logo(),
+                  SizedBox(height: 48),
+                  LoginForm(),
+                  SizedBox(height: 48),
+                  SignUpText(),
+                  SizedBox(height: 60)
+                ],
+              )
+          )
+      )
     );
   }
 }
