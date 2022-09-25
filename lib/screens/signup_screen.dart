@@ -75,10 +75,10 @@ class _SignUpFormState extends State<SignUpForm> {
 
     if (user != null) {
       print('Created user! Proceed to sign in');
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
             builder: (context) => ClientMainScreen()
-        ),
+        ), (route) => false
       );
     } else {
       // TODO: show error message
