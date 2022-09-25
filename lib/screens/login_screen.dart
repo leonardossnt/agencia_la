@@ -1,4 +1,7 @@
+import 'package:agencia_la/auth/auth.dart';
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/screens/client_main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -76,6 +79,27 @@ class _LoginFormState extends State<LoginForm> {
 
   bool _isPasswordObscured = true;
 
+  Future login() async {
+    String login = _login.text;
+    String password = _password.text;
+
+    User? user = await Auth.signInUsingEmailPassword(
+        email: login, password: password);
+
+    if (user != null) {
+      print('User found! Proceed to sign in');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => ClientMainScreen()
+        ),
+      );
+
+    } else {
+      // TODO: show error message
+      print('User not found!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -130,28 +154,48 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           const SizedBox(height: 16),
-          const LoginButton(),
+          LoginButton(login: login),
         ],
       ),
     );
   }
 }
 
-class LoginButton extends StatelessWidget {
-  const LoginButton({super.key});
+class LoginButton extends StatefulWidget {
+  const LoginButton({required this.login, super.key});
+  final Function login;
+
+  @override
+  State<LoginButton> createState() => _LoginButtonState();
+}
+
+class _LoginButtonState extends State<LoginButton> {
+  bool isAuthenticating = false;
+
+  void login() async {
+    setState(() {
+      isAuthenticating = true;
+    });
+    await widget.login();
+    setState(() {
+      isAuthenticating = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => {},
+      onPressed: isAuthenticating ? null : login,
       style: ElevatedButton.styleFrom(
         backgroundColor: AgenciaLaColors.primary,
         foregroundColor: AgenciaLaColors.onPrimary,
-        elevation: 3,
+        elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         minimumSize: const Size(double.infinity, 60),
       ),
-      child: const Text(
+      child: isAuthenticating ?
+      const CircularProgressIndicator() :
+      const Text(
         "Entrar",
         style: TextStyle(fontSize: 18),
       ),
@@ -177,18 +221,20 @@ class SignUpText extends StatelessWidget {
               ),
               children: <InlineSpan>[
                 WidgetSpan(
-                    alignment: PlaceholderAlignment.baseline,
-                    baseline: TextBaseline.alphabetic,
-                    child: InkWell(
-                        onTap: () => {},
-                        child: const Text(
-                          "Cadastre-se",
-                          style: TextStyle(
-                            color: AgenciaLaColors.primary,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ))),
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
+                  child: InkWell(
+                    onTap: () => {},
+                    child: const Text(
+                      "Cadastre-se",
+                      style: TextStyle(
+                        color: AgenciaLaColors.primary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
