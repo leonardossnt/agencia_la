@@ -1,6 +1,7 @@
 import 'package:agencia_la/auth/auth.dart';
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
+import 'package:agencia_la/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -197,7 +198,7 @@ class _LoginButtonState extends State<LoginButton> {
       const CircularProgressIndicator() :
       const Text(
         "Entrar",
-        style: TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 24),
       ),
     );
   }
@@ -208,10 +209,7 @@ class SignUpText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: RichText(
+    return RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
               text: 'Ainda não possui conta? ',
@@ -224,7 +222,13 @@ class SignUpText extends StatelessWidget {
                   alignment: PlaceholderAlignment.baseline,
                   baseline: TextBaseline.alphabetic,
                   child: InkWell(
-                    onTap: () => {},
+                    onTap: () => {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SignUpScreen()
+                        ),
+                      ),
+                    },
                     child: const Text(
                       "Cadastre-se",
                       style: TextStyle(
@@ -237,9 +241,6 @@ class SignUpText extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
-      ],
-    );
+          );
   }
 }
