@@ -9,65 +9,86 @@ class Auth {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    if (FirebaseAuth.instance.currentUser != null) {
-      print('currentUser is present! proceed to enter app');
-      //enterApp();
-    } else {
-      print('currentUser is null! proceed to login');
-    }
-
     return firebaseApp;
   }
 
-  static Future<User?> registerUsingEmailPassword({
+  static Future<dynamic> registerUsingEmailPassword({
     required String email,
     required String password,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+
+    List<dynamic> response = [];
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       user = userCredential.user;
-      // await user!.updateProfile(displayName: email);
-      // await user.reload();
-      // user = auth.currentUser;
     } on FirebaseAuthException catch (e) {
+      response.add(false);
+
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
+        response.add('Senha fraca');
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        response.add('Email já cadastrado.');
+      } else if (e.code == 'network-request-failed') {
+        response.add('Sem conexão com a internet.');
+      } else {
+        print("Erro desconhecido: ${e.code}");
+        response.add('Erro desconhecido. Tente novamente.');
       }
-    } catch (e) {
-      print(e);
+      return response;
     }
-    return user;
+
+    response.add(true);
+    response.add(user);
+    return response;
   }
 
-  static Future<User?> signInUsingEmailPassword({
+  static Future<dynamic> signInUsingEmailPassword({
     required String email,
     required String password,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+
+    List<dynamic> response = [];
 
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
+      response.add(false);
+
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        response.add('Usuário não encontrado.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided.');
+        response.add('Senha incorreta.');
+      } else if (e.code == 'network-request-failed') {
+        print('Network request failed.');
+        response.add('Sem conexão com a internet.');
+      } else {
+        print("Erro desconhecido: ${e.code}");
+        response.add('Erro desconhecido. Tente novamente.');
       }
+
+      return response;
     }
 
-    return user;
+    response.add(true);
+    response.add(user);
+    return response;
   }
 
   static User? getCurrentUser() {
