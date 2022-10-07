@@ -9,13 +9,6 @@ class Auth {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    if (FirebaseAuth.instance.currentUser != null) {
-      print('currentUser is present! proceed to enter app');
-      //enterApp();
-    } else {
-      print('currentUser is null! proceed to login');
-    }
-
     return firebaseApp;
   }
 
@@ -32,25 +25,26 @@ class Auth {
         email: email,
         password: password,
       );
+
       user = userCredential.user;
-      // await user!.updateProfile(displayName: email);
-      // await user.reload();
-      // user = auth.currentUser;
     } on FirebaseAuthException catch (e) {
+      response.add(false);
+
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
-        response.add(false);
         response.add('Senha fraca');
-        return response;
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
-        response.add(false);
         response.add('Email já cadastrado.');
-        return response;
+      } else if (e.code == 'network-request-failed') {
+        response.add('Sem conexão com a internet.');
+      } else {
+        print("Erro desconhecido: ${e.code}");
+        response.add('Erro desconhecido. Tente novamente.');
       }
-    } catch (e) {
-      print(e);
+      return response;
     }
+
     response.add(true);
     response.add(user);
     return response;
@@ -70,25 +64,31 @@ class Auth {
         email: email,
         password: password,
       );
+
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
+      response.add(false);
+
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
-        response.add(false);
         response.add('Usuário não encontrado.');
-        return response;
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided.');
-        response.add(false);
         response.add('Senha incorreta.');
-        return response;
+      } else if (e.code == 'network-request-failed') {
+        print('Network request failed.');
+        response.add('Sem conexão com a internet.');
+      } else {
+        print("Erro desconhecido: ${e.code}");
+        response.add('Erro desconhecido. Tente novamente.');
       }
+
+      return response;
     }
 
     response.add(true);
     response.add(user);
     return response;
-    
   }
 
   static User? getCurrentUser() {
