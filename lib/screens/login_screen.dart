@@ -83,10 +83,13 @@ class _LoginFormState extends State<LoginForm> {
   bool _isPasswordObscured = true;
   bool _showAuthError = false;
 
-
   Future login() async {
     String login = _login.text;
     String password = _password.text;
+
+    setState(() {
+      _showAuthError = false;
+    });
 
     response = await Auth.signInUsingEmailPassword(
        email: login, password: password
@@ -99,13 +102,8 @@ class _LoginFormState extends State<LoginForm> {
             builder: (context) => ClientMainScreen()
         ),
       );
-
     } else {
-      // TODO: show error message
-
-      print(response[0]);
-      print(response[1]);
-      print('User not found!');
+      print("Error! ${response[1]}");
       setState(() {
         _showAuthError = true;
       });
@@ -189,9 +187,9 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   Text(
                     response != null ? response[1] : '',
-                    style: const TextStyle(color: Colors.red),
+                    style: const TextStyle(color: AgenciaLaColors.negative),
                   ),
-                  const SizedBox(height: 15.0)
+                  const SizedBox(height: 16)
                 ],
               ),
             ),
@@ -230,10 +228,9 @@ class _LoginButtonState extends State<LoginButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      // onPressed: isAuthenticating ? null : login,
       onPressed: () {
         if (widget.formKey.currentState!.validate()) {
-          if(isAuthenticating == false){
+          if (isAuthenticating == false){
             return login();
           }
           return;

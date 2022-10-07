@@ -1,7 +1,6 @@
 import 'package:agencia_la/auth/auth.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:agencia_la/colors.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -65,20 +64,20 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
-  var response;
+  dynamic response;
 
   bool _isPasswordObscured = true;
   bool _isConfirmPasswordObscured = true;
   bool _showAuthError = false;
 
-
   Future signUp() async {
     String login = _email.text;
     String password = _password.text;
-    
-    // User? user = await Auth.registerUsingEmailPassword(
-    //     email: login, password: password);
 
+    setState(() {
+      _showAuthError = false;
+    });
+    
     response = await Auth.registerUsingEmailPassword(
         email: login, password: password);
 
@@ -90,14 +89,10 @@ class _SignUpFormState extends State<SignUpForm> {
         ), (route) => false
       );
     } else {
-      // TODO: show error message
-      print(response[0]);
-      print(response[1]);
-      print('User was not created!');
+      print("Error! ${response[1]}");
       setState(() {
         _showAuthError = true;
       });
-
     }
   }
 
@@ -306,12 +301,11 @@ class _SignUpFormState extends State<SignUpForm> {
                 children: [
                   Text(
                     response != null ? response[1] : '',
-                    style: const TextStyle(color: Colors.red),
+                    style: const TextStyle(color: AgenciaLaColors.negative),
                   ),
-                  const SizedBox(height: 15.0)
+                  const SizedBox(height: 16)
                 ],
               ),
-
             ),
             SignUpButton(signUp: signUp, formKey: _formKey,),
           ],
@@ -356,7 +350,7 @@ class _DisclaimerCheckboxState extends State<DisclaimerCheckbox> {
             ),
             Text(
               context.errorText ?? '',
-              style: const TextStyle(color: Colors.red),
+              style: const TextStyle(color: AgenciaLaColors.negative),
               textAlign: TextAlign.start,
             )
           ],
@@ -424,8 +418,6 @@ class SignUpButton extends StatefulWidget {
   final Function signUp;
   final GlobalKey<FormState> formKey;
 
-  
-
   @override
   State<SignUpButton> createState() => _SignUpButtonState();
 }
@@ -433,7 +425,7 @@ class SignUpButton extends StatefulWidget {
 class _SignUpButtonState extends State<SignUpButton> {
   bool isAuthenticating = false;
 
-  void login() async {
+  void signUp() async {
     setState(() {
       isAuthenticating = true;
     });
@@ -446,11 +438,10 @@ class _SignUpButtonState extends State<SignUpButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      // onPressed: isAuthenticating ? null : login,
       onPressed: () {
         if (widget.formKey.currentState!.validate()) {
           if(isAuthenticating == false){
-            return login();
+            return signUp();
           }
           return;
         }
