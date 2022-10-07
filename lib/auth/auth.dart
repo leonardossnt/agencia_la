@@ -19,12 +19,14 @@ class Auth {
     return firebaseApp;
   }
 
-  static Future<User?> registerUsingEmailPassword({
+  static Future<dynamic> registerUsingEmailPassword({
     required String email,
     required String password,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+
+    List<dynamic> response = [];
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
@@ -37,21 +39,31 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
+        response.add(false);
+        response.add('Senha fraca');
+        return response;
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        response.add(false);
+        response.add('Email já cadastrado.');
+        return response;
       }
     } catch (e) {
       print(e);
     }
-    return user;
+    response.add(true);
+    response.add(user);
+    return response;
   }
 
-  static Future<User?> signInUsingEmailPassword({
+  static Future<dynamic> signInUsingEmailPassword({
     required String email,
     required String password,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+
+    List<dynamic> response = [];
 
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
@@ -62,12 +74,21 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        response.add(false);
+        response.add('Usuário não encontrado.');
+        return response;
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided.');
+        response.add(false);
+        response.add('Senha incorreta.');
+        return response;
       }
     }
 
-    return user;
+    response.add(true);
+    response.add(user);
+    return response;
+    
   }
 
   static User? getCurrentUser() {

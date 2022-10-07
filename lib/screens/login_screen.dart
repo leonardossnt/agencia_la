@@ -2,7 +2,7 @@ import 'package:agencia_la/auth/auth.dart';
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
 import 'package:agencia_la/screens/signup_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -75,19 +75,24 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _login = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  dynamic response;
 
   bool _isPasswordObscured = true;
+  bool _showAuthError = false;
+
 
   Future login() async {
     String login = _login.text;
     String password = _password.text;
 
-    User? user = await Auth.signInUsingEmailPassword(
-        email: login, password: password);
+    response = await Auth.signInUsingEmailPassword(
+       email: login, password: password
+    );
 
-    if (user != null) {
+    if (response[0] == true) {
       print('User found! Proceed to sign in');
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -97,7 +102,13 @@ class _LoginFormState extends State<LoginForm> {
 
     } else {
       // TODO: show error message
+
+      print(response[0]);
+      print(response[1]);
       print('User not found!');
+      setState(() {
+        _showAuthError = true;
+      });
     }
   }
 
@@ -105,66 +116,99 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 36),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: _login,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: 'email',
-              prefixIcon: const Icon(Icons.email),
-              border: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    width: 1,
-                    color: AgenciaLaColors.inputBackground,
-                  ),
-                  borderRadius: BorderRadius.circular(24)),
-              filled: true,
-              fillColor: AgenciaLaColors.inputBackground,
-            ),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _password,
-            keyboardType: TextInputType.text,
-            obscureText: _isPasswordObscured,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: InputDecoration(
-              labelText: 'senha',
-              prefixIcon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(_isPasswordObscured
-                    ? Icons.visibility
-                    : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    _isPasswordObscured = !_isPasswordObscured;
-                  });
-                  },
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _login,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'email',
+                prefixIcon: const Icon(Icons.email),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      width: 1,
+                      color: AgenciaLaColors.inputBackground,
+                    ),
+                    borderRadius: BorderRadius.circular(24)),
+                filled: true,
+                fillColor: AgenciaLaColors.inputBackground,
               ),
-              border: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    width: 1,
-                    color: AgenciaLaColors.inputBackground,
-                  ),
-                  borderRadius: BorderRadius.circular(24)),
-              filled: true,
-              fillColor: AgenciaLaColors.inputBackground,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Insira um e-mail';
+                } else if (EmailValidator.validate(value)) {
+                  return null;
+                } else {
+                  return 'Insira um e-mail válido';
+                }
+              },
             ),
-          ),
-          const SizedBox(height: 16),
-          LoginButton(login: login),
-        ],
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _password,
+              keyboardType: TextInputType.text,
+              obscureText: _isPasswordObscured,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: InputDecoration(
+                labelText: 'senha',
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(_isPasswordObscured
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordObscured = !_isPasswordObscured;
+                    });
+                    },
+                ),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      width: 1,
+                      color: AgenciaLaColors.inputBackground,
+                    ),
+                    borderRadius: BorderRadius.circular(24)),
+                filled: true,
+                fillColor: AgenciaLaColors.inputBackground,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Insira uma senha';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+            Offstage(
+              offstage: !_showAuthError,
+              child: Column(
+                children: [
+                  Text(
+                    response != null ? response[1] : '',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                  const SizedBox(height: 15.0)
+                ],
+              ),
+            ),
+
+            LoginButton(login: login, formKey: _formKey,),
+          ],
+        ),
       ),
     );
   }
 }
 
 class LoginButton extends StatefulWidget {
-  const LoginButton({required this.login, super.key});
+  const LoginButton({required this.login, required this.formKey, super.key});
   final Function login;
+  final GlobalKey<FormState> formKey;
+
 
   @override
   State<LoginButton> createState() => _LoginButtonState();
@@ -186,7 +230,15 @@ class _LoginButtonState extends State<LoginButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isAuthenticating ? null : login,
+      // onPressed: isAuthenticating ? null : login,
+      onPressed: () {
+        if (widget.formKey.currentState!.validate()) {
+          if(isAuthenticating == false){
+            return login();
+          }
+          return;
+        }
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: AgenciaLaColors.primary,
         foregroundColor: AgenciaLaColors.onPrimary,
