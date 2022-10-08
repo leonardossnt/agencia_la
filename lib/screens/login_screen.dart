@@ -282,7 +282,7 @@ class SignUpText extends StatelessWidget {
                       "Cadastre-se",
                       style: TextStyle(
                         color: AgenciaLaColors.primary,
-                        fontSize: 14,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

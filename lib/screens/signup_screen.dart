@@ -245,7 +245,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   return 'Insira uma senha';
                 }
                 else if(value.length < 8){
-                  return 'A senha deve conter no mínimo 8 caracteres';
+                  return 'Sua senha deve conter no mínimo 8 caracteres';
                 }
                 return null;
               },
@@ -383,7 +383,7 @@ class DisclaimerText extends StatelessWidget {
                   "Termos de Uso",
                   style: TextStyle(
                     color: AgenciaLaColors.primary,
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -399,7 +399,7 @@ class DisclaimerText extends StatelessWidget {
                   "Política de Privacidade",
                   style: TextStyle(
                     color: AgenciaLaColors.primary,
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
