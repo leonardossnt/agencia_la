@@ -1,5 +1,6 @@
 import 'package:agencia_la/auth/auth.dart';
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/components/screen_title.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
 import 'package:agencia_la/screens/signup_screen.dart';
 import 'package:email_validator/email_validator.dart';
@@ -11,46 +12,32 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AgenciaLaColors.background,
-        body: Center(
-          child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const <Widget>[
-                  SizedBox(height: 18),
-                  ScreenTitle(),
-                  SizedBox(height: 84),
-                  Logo(),
-                  SizedBox(height: 48),
-                  LoginForm(),
-                  SizedBox(height: 48),
-                  SignUpText(),
-                  SizedBox(height: 60)
-                ],
-              )
-          )
-      )
-    );
-  }
-}
-
-class ScreenTitle extends StatelessWidget {
-  const ScreenTitle({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
-        child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text("Bem vindo!",
-                style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: AgenciaLaColors.darkPrimary
-                )
-            )
-        )
+      backgroundColor: AgenciaLaColors.background,
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+              child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const <Widget>[
+                      SizedBox(height: 120),
+                      ScreenTitle("Bem vindo!"),
+                      SizedBox(height: 84),
+                      Logo(),
+                      SizedBox(height: 48),
+                      LoginForm(),
+                      SizedBox(height: 48),
+                      SignUpText(),
+                      SizedBox(height: 32)
+                    ],
+                  ),
+              ),
+          );
+        },
+      ),
     );
   }
 }
