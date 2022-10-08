@@ -1,4 +1,5 @@
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/screens/client_orders_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:agencia_la/screens/client_profile_screen.dart';
 
@@ -12,9 +13,7 @@ class ClientMainScreen extends StatefulWidget {
 class _ClientMainScreenState extends State<ClientMainScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Pedidos',
-    ),
+    ClientOrdersScreen(),
     Text(
       'Solicitar uma Lanny',
     ),
