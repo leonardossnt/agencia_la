@@ -16,7 +16,7 @@ class OngoingOrders extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: OrderCard(
-            order: Mock.order,
+            order: Mock.orders[0],
           ),
         ),
       ],
@@ -104,7 +104,7 @@ class OrderCard extends StatelessWidget {
                     Icon(Icons.calendar_today),
                     SizedBox(width: 16),
                     Text(
-                      order.dateTime,
+                      "${order.date} às ${order.time}",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
