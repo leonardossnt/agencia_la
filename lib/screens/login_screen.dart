@@ -1,6 +1,6 @@
 import 'package:agencia_la/auth/auth.dart';
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/screen_title.dart';
+import 'package:agencia_la/components/title.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
 import 'package:agencia_la/screens/signup_screen.dart';
 import 'package:email_validator/email_validator.dart';
