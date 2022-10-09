@@ -2,6 +2,7 @@ import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/model/mock.dart';
 import 'package:agencia_la/model/order.dart';
 import 'package:flutter/material.dart';
+
 import 'title.dart';
 
 class OngoingOrders extends StatelessWidget {
@@ -79,7 +80,10 @@ class OrderCard extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.phone),
+                          Icon(
+                            Icons.phone,
+                            color: AgenciaLaColors.foreground,
+                          ),
                           SizedBox(width: 8),
                           Text(
                             order.lanny.phone,
@@ -101,7 +105,8 @@ class OrderCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.calendar_today),
+                    Icon(Icons.calendar_today,
+                        color: AgenciaLaColors.foreground),
                     SizedBox(width: 16),
                     Text(
                       "${order.date} às ${order.time}",
@@ -116,7 +121,10 @@ class OrderCard extends StatelessWidget {
                 SizedBox(width: 24),
                 Row(
                   children: [
-                    Icon(Icons.access_time),
+                    Icon(
+                      Icons.access_time,
+                      color: AgenciaLaColors.foreground,
+                    ),
                     SizedBox(width: 8),
                     Text(
                       order.duration,
@@ -134,7 +142,10 @@ class OrderCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.place),
+                Icon(
+                  Icons.place,
+                  color: AgenciaLaColors.foreground,
+                ),
                 SizedBox(width: 16),
                 Flexible(
                   child: Text(
