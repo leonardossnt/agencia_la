@@ -1,3 +1,4 @@
+import 'package:agencia_la/components/finished_orders.dart';
 import 'package:agencia_la/components/ongoing_order.dart';
 import 'package:agencia_la/components/title.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,12 @@ class ClientOrdersScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: const <Widget>[
                 SizedBox(height: 120),
-                ScreenTitle("Meus Pedidos"),
+                ScreenTitle("Meus pedidos"),
                 SizedBox(height: 36),
                 OngoingOrders(),
                 SizedBox(height: 48),
-                // FinishedOrders(),
-                SizedBox(height: 48),
+                FinishedOrders(),
+                SizedBox(height: 16),
               ],
             ),
           ),
