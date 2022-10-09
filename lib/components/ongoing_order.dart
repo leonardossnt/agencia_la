@@ -48,7 +48,7 @@ class OrderCard extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: AgenciaLaColors.primary,
                   backgroundImage: AssetImage(order.lanny.picture),
-                  radius: 48,
+                  radius: 52,
                 ),
                 SizedBox(width: 24),
                 Flexible(
@@ -61,7 +61,7 @@ class OrderCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         softWrap: true,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w500,
                           color: AgenciaLaColors.foreground,
@@ -69,7 +69,7 @@ class OrderCard extends StatelessWidget {
                       ),
                       Text(
                         "${order.lanny.age} anos",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: AgenciaLaColors.foreground,
@@ -83,7 +83,7 @@ class OrderCard extends StatelessWidget {
                           SizedBox(width: 8),
                           Text(
                             order.lanny.phone,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: AgenciaLaColors.foreground,
@@ -105,7 +105,7 @@ class OrderCard extends StatelessWidget {
                     SizedBox(width: 16),
                     Text(
                       "${order.date} às ${order.time}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color: AgenciaLaColors.foreground,
@@ -117,10 +117,10 @@ class OrderCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.access_time),
-                    SizedBox(width: 16),
+                    SizedBox(width: 8),
                     Text(
                       order.duration,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color: AgenciaLaColors.foreground,
@@ -139,7 +139,7 @@ class OrderCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     order.address,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                       color: AgenciaLaColors.foreground,

@@ -15,11 +15,11 @@ class _FinishedOrdersState extends State<FinishedOrders> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        const SectionTitle("Finalizados"),
-        const SizedBox(height: 8),
+      children: const [
+        SectionTitle("Finalizados"),
+        SizedBox(height: 8),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: FinishedOrderList(),
         ),
       ],
@@ -69,7 +69,7 @@ class FinishedOrderCard extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: AgenciaLaColors.primary,
                 backgroundImage: AssetImage(order.lanny.picture),
-                radius: 32,
+                radius: 40,
               ),
               SizedBox(width: 24),
               Column(
@@ -78,7 +78,7 @@ class FinishedOrderCard extends StatelessWidget {
                 children: [
                   Text(
                     order.date,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,
                       color: AgenciaLaColors.foreground,
@@ -86,7 +86,7 @@ class FinishedOrderCard extends StatelessWidget {
                   ),
                   Text(
                     "Lanny ${order.lanny.name}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
                       color: AgenciaLaColors.foreground,
