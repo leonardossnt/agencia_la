@@ -1,4 +1,5 @@
-import 'package:agencia_la/components/screen_title.dart';
+import 'package:agencia_la/components/ongoing_order.dart';
+import 'package:agencia_la/components/title.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersScreen extends StatelessWidget {
@@ -18,8 +19,8 @@ class ClientOrdersScreen extends StatelessWidget {
               children: const <Widget>[
                 SizedBox(height: 120),
                 ScreenTitle("Meus Pedidos"),
-                SizedBox(height: 84),
-                // OngoingOrders(),
+                SizedBox(height: 36),
+                OngoingOrders(),
                 SizedBox(height: 48),
                 // FinishedOrders(),
                 SizedBox(height: 48),

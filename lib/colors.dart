@@ -10,6 +10,6 @@ class AgenciaLaColors {
   static const onBackground = Color(0xff000000);
   static const inputBackground = Color(0xfff5f5f5);
   static const unselectedIcon = Color(0xffa2a2a2);
-  static const icons = Color(0xff344e4c);
+  static const foreground = Color(0xff344f4d);
   static const negative = Color(0xffff6d62);
 }
