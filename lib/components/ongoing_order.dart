@@ -32,13 +32,13 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
+      elevation: 2,
       color: AgenciaLaColors.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
       ),
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -46,7 +46,7 @@ class OrderCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  backgroundColor: AgenciaLaColors.lightPrimary,
+                  backgroundColor: AgenciaLaColors.primary,
                   backgroundImage: AssetImage(order.lanny.picture),
                   radius: 48,
                 ),
