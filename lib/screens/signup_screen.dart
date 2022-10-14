@@ -1,4 +1,4 @@
-import 'package:agencia_la/auth/auth.dart';
+import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/components/title.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
