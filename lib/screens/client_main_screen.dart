@@ -14,9 +14,7 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     ClientOrdersScreen(),
-    Text(
-      'Solicitar uma Lanny',
-    ),
+    ClientMakeOrder(),
     ClientProfileScreen(),
   ];
 
@@ -56,5 +54,14 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
         onTap: _onItemTapped,
       ),
     );
+  }
+}
+
+class ClientMakeOrder extends StatelessWidget {
+  const ClientMakeOrder({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('Solicitar uma Lanny');
   }
 }
