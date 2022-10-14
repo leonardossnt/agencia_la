@@ -4,6 +4,29 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 class Auth {
+  static const errorMap = {
+    'weak-password': {
+      'log': "The password provided is too weak",
+      'message': "Senha fraca.",
+    },
+    'email-already-in-use': {
+      'log': "The account already exists for that email.",
+      'message': "Email já cadastrado.",
+    },
+    'network-request-failed': {
+      'log': "Network request failed; device is not connected.",
+      'message': "Sem conexão com a internet.",
+    },
+    'user-not-found': {
+      'log': "No user found for that email.",
+      'message': "Usuário não encontrado.",
+    },
+    'wrong-password': {
+      'log': "Wrong password provided.",
+      'message': "Senha incorreta.",
+    }
+  };
+
   static Future<Object> init() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -28,21 +51,7 @@ class Auth {
 
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
-      response.add(false);
-
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-        response.add('Senha fraca');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-        response.add('Email já cadastrado.');
-      } else if (e.code == 'network-request-failed') {
-        response.add('Sem conexão com a internet.');
-      } else {
-        print("Erro desconhecido: ${e.code}");
-        response.add('Erro desconhecido. Tente novamente.');
-      }
-      return response;
+      return parseError(e.code);
     }
 
     response.add(true);
@@ -67,27 +76,26 @@ class Auth {
 
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
-      response.add(false);
-
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        response.add('Usuário não encontrado.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided.');
-        response.add('Senha incorreta.');
-      } else if (e.code == 'network-request-failed') {
-        print('Network request failed.');
-        response.add('Sem conexão com a internet.');
-      } else {
-        print("Erro desconhecido: ${e.code}");
-        response.add('Erro desconhecido. Tente novamente.');
-      }
-
-      return response;
+      return parseError(e.code);
     }
 
     response.add(true);
     response.add(user);
+    return response;
+  }
+
+  static List<dynamic> parseError(String errorCode) {
+    List<dynamic> response = [];
+    response.add(false);
+
+    var logError = errorMap[errorCode]?['log'] ??
+        "Erro desconhecido: $errorCode";
+    print(logError);
+
+    var userError = errorMap[errorCode]?['message'] ??
+        "Erro desconhecido. Tente novamente.";
+    response.add(userError);
+
     return response;
   }
 
