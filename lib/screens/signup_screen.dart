@@ -1,6 +1,7 @@
-import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/components/title.dart';
+import 'package:agencia_la/model/client.dart';
+import 'package:agencia_la/network/register.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -60,15 +61,19 @@ class _SignUpFormState extends State<SignUpForm> {
   bool _showAuthError = false;
 
   Future signUp() async {
-    String login = _email.text;
+    String name = _name.text;
+    String surname = _surname.text;
+    String phone = _phone.text;
+    String email = _email.text;
     String password = _password.text;
 
     setState(() {
       _showAuthError = false;
     });
-    
-    response = await Auth.registerUsingEmailPassword(
-        email: login, password: password);
+
+    var client = Client(name: name, surname: surname, phone: phone, email: email);
+
+    response = await RegisterClient.registerClient(client, password);
 
     if (response[0] == true) {
       print('Created user! Proceed to sign in');
