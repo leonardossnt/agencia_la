@@ -1,6 +1,7 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/model/mock.dart';
 import 'package:agencia_la/model/order.dart';
+import 'package:agencia_la/network/auth.dart';
+import 'package:agencia_la/network/database.dart';
 import 'package:flutter/material.dart';
 import 'title.dart';
 
@@ -37,12 +38,28 @@ class FinishedOrderList extends StatefulWidget {
 class _FinishedOrderListState extends State<FinishedOrderList> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FinishedOrderCard(order: Mock.orders[1]),
-        FinishedOrderCard(order: Mock.orders[2]),
-        FinishedOrderCard(order: Mock.orders[3]),
-      ],
+    return FutureBuilder(
+      future: Database.getFinishedOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        print("finishedOrders snapshot?");
+        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+          print("finishedOrders is COOL!");
+          var finishedOrders = snapshot.data as List<Order>;
+          var orderList = <Widget>[];
+          for(Order order in finishedOrders) {
+            orderList.add(FinishedOrderCard(order: order));
+          }
+          return Column(children: orderList);
+        } else {
+          print("finishedOrders is not rendered :(");
+          return Column(
+            children: const [
+              SizedBox(height: 18),
+              CircularProgressIndicator(),
+            ],
+          );
+        }
+      },
     );
   }
 }
@@ -67,8 +84,9 @@ class FinishedOrderCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               CircleAvatar(
-                backgroundColor: AgenciaLaColors.primary,
-                backgroundImage: AssetImage(order.lanny.picture),
+                backgroundColor: AgenciaLaColors.inputBackground,
+                backgroundImage: AssetImage('assets/images/logo_teal.png'),
+                foregroundImage: NetworkImage(order.lanny.picture),
                 radius: 40,
               ),
               SizedBox(width: 24),

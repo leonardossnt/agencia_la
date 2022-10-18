@@ -11,7 +11,8 @@ class Database {
     await ref.set(client.toJson());
   }
 
-  static Future<dynamic> getOngoingOrdersByClient(String uid) async {
+  static dynamic getAllOrdersAndLannies() async {
+    print("Running getAllOrdersAndLannies");
     FirebaseDatabase db = FirebaseDatabase.instance;
 
     // first: get all orders
@@ -32,7 +33,18 @@ class Database {
 
     var allLannies = snapshotAllLannies.value as List;
 
-    // third: get all ongoing orders from client
+    return {'orders': allOrders, 'lannies': allLannies};
+  }
+
+  static Future<dynamic> getOngoingOrdersByClient(String uid) async {
+    FirebaseDatabase db = FirebaseDatabase.instance;
+
+    var all = await getAllOrdersAndLannies();
+    var allOrders = all['orders'];
+    var allLannies = all['lannies'];
+
+    print("running getOngoingOrdersByClient");
+    // get all ongoing orders from client
     var clientOngoingOrders = await db.ref('client/$uid/ongoingOrders').get();
 
     if (!clientOngoingOrders.exists) {
@@ -41,7 +53,7 @@ class Database {
 
     var ongoingOrdersKeys = clientOngoingOrders.value as List;
 
-    // fourth: create a list of orders
+    // create a list of orders
     List<Order> ongoingOrders = [];
 
     for (var orderKey in ongoingOrdersKeys) {
@@ -54,5 +66,37 @@ class Database {
     }
 
     return ongoingOrders;
+  }
+
+  static Future<dynamic> getFinishedOrdersByClient(String uid) async {
+    FirebaseDatabase db = FirebaseDatabase.instance;
+
+    var all = await getAllOrdersAndLannies();
+    var allOrders = all['orders'];
+    var allLannies = all['lannies'];
+
+    print("running getFinishedOrdersByClient");
+    // get all ongoing orders from client
+    var clientFinishedOrders = await db.ref('client/$uid/finishedOrders').get();
+
+    if (!clientFinishedOrders.exists) {
+      return null;
+    }
+
+    var finishedOrdersKeys = clientFinishedOrders.value as List;
+
+    // create a list of orders
+    List<Order> finishedOrders = [];
+
+    for (var orderKey in finishedOrdersKeys) {
+      var orderJson = allOrders[orderKey];
+      var lannyJson = allLannies[orderJson["lanny"]];
+
+      var lanny = Lanny.fromJson(lannyJson);
+      var order = Order.fromJson(orderJson, lanny);
+      finishedOrders.add(order);
+    }
+
+    return finishedOrders;
   }
 }

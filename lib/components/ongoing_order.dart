@@ -23,15 +23,22 @@ class OngoingOrders extends StatelessWidget {
   }
 }
 
-class OngoingOrderList extends StatelessWidget {
+class OngoingOrderList extends StatefulWidget {
   const OngoingOrderList({Key? key}) : super(key: key);
 
+  @override
+  State<OngoingOrderList> createState() => _OngoingOrderListState();
+}
+
+class _OngoingOrderListState extends State<OngoingOrderList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Database.getOngoingOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        print("ongoingOrder snapshot?");
         if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+          print("ongoingOrder is COOL!");
           var ongoingOrders = snapshot.data as List<Order>;
           var orderList = <Widget>[];
           for(Order order in ongoingOrders) {
@@ -39,6 +46,7 @@ class OngoingOrderList extends StatelessWidget {
           }
           return Column(children: orderList);
         } else {
+          print("ongoingOrder i think it is null");
           return Column(
             children: const [
               SizedBox(height: 18),
@@ -50,7 +58,6 @@ class OngoingOrderList extends StatelessWidget {
     );
   }
 }
-
 
 class OrderCard extends StatelessWidget {
   final Order order;
