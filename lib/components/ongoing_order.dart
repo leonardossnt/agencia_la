@@ -69,7 +69,7 @@ class OrderCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "${order.lanny.age} anos",
+                        "${order.lanny.age()} anos",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
