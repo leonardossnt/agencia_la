@@ -14,26 +14,35 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AgenciaLaColors.background,
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: viewportConstraints.maxHeight,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const <Widget>[
-                  SizedBox(height: 120),
-                  ScreenTitle("Criar conta"),
-                  SizedBox(height: 84),
-                  SignUpForm(),
-                  SizedBox(height: 32)
-                ],
-              ),
-            ),
-          );
+      body: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
         },
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const <Widget>[
+                    SizedBox(height: 120),
+                    ScreenTitle("Criar conta"),
+                    SizedBox(height: 84),
+                    SignUpForm(),
+                    SizedBox(height: 32)
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
