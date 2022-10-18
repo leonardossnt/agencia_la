@@ -3,6 +3,7 @@ import 'package:agencia_la/model/order.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'title.dart';
 
 class FinishedOrders extends StatefulWidget {
@@ -39,7 +40,8 @@ class _FinishedOrderListState extends State<FinishedOrderList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Database.getFinishedOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
+      future:
+          Database.getFinishedOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
@@ -77,6 +79,7 @@ class _FinishedOrderListState extends State<FinishedOrderList> {
 
 class FinishedOrderCard extends StatelessWidget {
   final Order order;
+
   const FinishedOrderCard({Key? key, required this.order}) : super(key: key);
 
   @override
@@ -106,7 +109,7 @@ class FinishedOrderCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    order.date,
+                    DateFormat('d/MM').format(DateTime.parse(order.date)),
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,

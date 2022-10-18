@@ -3,6 +3,7 @@ import 'package:agencia_la/model/order.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'title.dart';
 
 class OngoingOrders extends StatelessWidget {
@@ -34,7 +35,8 @@ class _OngoingOrderListState extends State<OngoingOrderList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Database.getOngoingOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
+      future:
+          Database.getOngoingOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
@@ -155,7 +157,7 @@ class OrderCard extends StatelessWidget {
                         color: AgenciaLaColors.foreground),
                     SizedBox(width: 16),
                     Text(
-                      "${order.date} às ${order.time}",
+                      "${DateFormat('d/MM').format(DateTime.parse(order.date))} às ${order.time}",
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
