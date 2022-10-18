@@ -36,17 +36,28 @@ class _OngoingOrderListState extends State<OngoingOrderList> {
     return FutureBuilder(
       future: Database.getOngoingOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        print("ongoingOrder snapshot?");
-        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-          print("ongoingOrder is COOL!");
-          var ongoingOrders = snapshot.data as List<Order>;
-          var orderList = <Widget>[];
-          for(Order order in ongoingOrders) {
-            orderList.add(OrderCard(order: order));
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            var ongoingOrders = snapshot.data as List<Order>;
+            var orderList = <Widget>[];
+            for (Order order in ongoingOrders) {
+              orderList.add(OrderCard(order: order));
+            }
+            return Column(children: orderList);
+          } else {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 18, horizontal: 60),
+              child: Text(
+                "Nenhum pedido em andamento!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            );
           }
-          return Column(children: orderList);
         } else {
-          print("ongoingOrder i think it is null");
           return Column(
             children: const [
               SizedBox(height: 18),

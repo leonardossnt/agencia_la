@@ -41,17 +41,28 @@ class _FinishedOrderListState extends State<FinishedOrderList> {
     return FutureBuilder(
       future: Database.getFinishedOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        print("finishedOrders snapshot?");
-        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-          print("finishedOrders is COOL!");
-          var finishedOrders = snapshot.data as List<Order>;
-          var orderList = <Widget>[];
-          for(Order order in finishedOrders) {
-            orderList.add(FinishedOrderCard(order: order));
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            var finishedOrders = snapshot.data as List<Order>;
+            var orderList = <Widget>[];
+            for (Order order in finishedOrders) {
+              orderList.add(FinishedOrderCard(order: order));
+            }
+            return Column(children: orderList);
+          } else {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 18, horizontal: 60),
+              child: Text(
+                "Nenhum pedido foi finalizado!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            );
           }
-          return Column(children: orderList);
         } else {
-          print("finishedOrders is not rendered :(");
           return Column(
             children: const [
               SizedBox(height: 18),

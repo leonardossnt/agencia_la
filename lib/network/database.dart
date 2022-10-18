@@ -12,7 +12,6 @@ class Database {
   }
 
   static dynamic getAllOrdersAndLannies() async {
-    print("Running getAllOrdersAndLannies");
     FirebaseDatabase db = FirebaseDatabase.instance;
 
     // first: get all orders
@@ -43,7 +42,6 @@ class Database {
     var allOrders = all['orders'];
     var allLannies = all['lannies'];
 
-    print("running getOngoingOrdersByClient");
     // get all ongoing orders from client
     var clientOngoingOrders = await db.ref('client/$uid/ongoingOrders').get();
 
@@ -75,7 +73,6 @@ class Database {
     var allOrders = all['orders'];
     var allLannies = all['lannies'];
 
-    print("running getFinishedOrdersByClient");
     // get all ongoing orders from client
     var clientFinishedOrders = await db.ref('client/$uid/finishedOrders').get();
 
