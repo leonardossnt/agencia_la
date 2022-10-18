@@ -1,8 +1,8 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/model/mock.dart';
 import 'package:agencia_la/model/order.dart';
+import 'package:agencia_la/network/auth.dart';
+import 'package:agencia_la/network/database.dart';
 import 'package:flutter/material.dart';
-
 import 'title.dart';
 
 class OngoingOrders extends StatelessWidget {
@@ -16,14 +16,41 @@ class OngoingOrders extends StatelessWidget {
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: OrderCard(
-            order: Mock.orders[0],
-          ),
+          child: OngoingOrderList(),
         ),
       ],
     );
   }
 }
+
+class OngoingOrderList extends StatelessWidget {
+  const OngoingOrderList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Database.getOngoingOrdersByClient(Auth.getCurrentUser()?.uid ?? ""),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+          var ongoingOrders = snapshot.data as List<Order>;
+          var orderList = <Widget>[];
+          for(Order order in ongoingOrders) {
+            orderList.add(OrderCard(order: order));
+          }
+          return Column(children: orderList);
+        } else {
+          return Column(
+            children: const [
+              SizedBox(height: 18),
+              CircularProgressIndicator(),
+            ],
+          );
+        }
+      },
+    );
+  }
+}
+
 
 class OrderCard extends StatelessWidget {
   final Order order;
@@ -47,8 +74,9 @@ class OrderCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  backgroundColor: AgenciaLaColors.primary,
-                  backgroundImage: AssetImage(order.lanny.picture),
+                  backgroundColor: AgenciaLaColors.inputBackground,
+                  backgroundImage: AssetImage('assets/images/logo_teal.png'),
+                  foregroundImage: NetworkImage(order.lanny.picture),
                   radius: 52,
                 ),
                 SizedBox(width: 24),
