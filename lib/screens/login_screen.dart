@@ -203,6 +203,8 @@ class _LoginButtonState extends State<LoginButton> {
   bool isAuthenticating = false;
 
   void login() async {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    currentFocus.unfocus();
     setState(() {
       isAuthenticating = true;
     });

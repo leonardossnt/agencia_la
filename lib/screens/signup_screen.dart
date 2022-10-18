@@ -67,6 +67,9 @@ class _SignUpFormState extends State<SignUpForm> {
     String email = _email.text;
     String password = _password.text;
 
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    currentFocus.unfocus();
+
     setState(() {
       _showAuthError = false;
     });
@@ -420,6 +423,8 @@ class _SignUpButtonState extends State<SignUpButton> {
   bool isAuthenticating = false;
 
   void signUp() async {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    currentFocus.unfocus();
     setState(() {
       isAuthenticating = true;
     });
