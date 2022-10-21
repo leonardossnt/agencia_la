@@ -4,6 +4,7 @@ import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'title.dart';
 
 class OngoingOrders extends StatelessWidget {
@@ -133,12 +134,17 @@ class OrderCard extends StatelessWidget {
                             color: AgenciaLaColors.foreground,
                           ),
                           SizedBox(width: 8),
-                          Text(
-                            order.lanny.phone,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AgenciaLaColors.foreground,
+                          InkWell(
+                            onTap: () => {
+                              UrlLauncher.launchUrl(Uri.parse('tel:${order.lanny.phone}'))
+                            },
+                            child: Text(
+                              order.lanny.phone,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AgenciaLaColors.primary,
+                              ),
                             ),
                           ),
                         ],
