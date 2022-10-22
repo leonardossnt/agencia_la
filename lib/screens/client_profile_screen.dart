@@ -25,21 +25,7 @@ class ClientProfileScreen extends StatelessWidget {
     return ProfileScaffold(
       size: size,
       topChildren: [
-        const SizedBox(height: 60),
-        Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: IconButton(
-                onPressed: () => logout(context),
-                icon: const Icon(
-                  Icons.logout,
-                  size: 32,
-                  color: AgenciaLaColors.onPrimary,
-                )),
-          ),
-        ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 120),
         const ScreenTitle(
           'Perfil',
           color: AgenciaLaColors.onPrimary,
@@ -99,6 +85,7 @@ class ClientProfileScreen extends StatelessWidget {
                   // _profileOption('Carteira', false, () { Navigator.pop(context); }),
                   // _profileOption('Crianças', false, () { Navigator.pop(context); }),
                   // _profileOption('Endereços', false, () { Navigator.pop(context); }),
+                  _profileOption('Sair', false, () => logout(context)),
                   const SizedBox(height: 8),
                 ],
               ),
@@ -214,4 +201,3 @@ class ProfileScaffold extends StatelessWidget {
     );
   }
 }
-
