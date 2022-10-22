@@ -2,7 +2,7 @@ import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/components/title.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
-import 'package:agencia_la/screens/client_edit_profile.dart';
+import 'package:agencia_la/screens/client_profile_edit.dart';
 import 'package:agencia_la/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -86,7 +86,7 @@ class ClientProfileScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   _profileOption('Editar Perfil', true, () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ClientEditProfileScreen()));
+                        builder: (context) => const ClientProfileEditScreen()));
                   }),
                   _profileOption('Fale Conosco', false, _talkToUsWhatsapp(context)),
                   // _profileOption('Carteira', false, () { Navigator.pop(context); }),
