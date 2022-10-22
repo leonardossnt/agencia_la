@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
+  static const routeName = '/loginScreen';
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,11 +96,7 @@ class _LoginFormState extends State<LoginForm> {
 
     if (response[0] == true) {
       print('User found! Proceed to sign in');
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-            builder: (context) => ClientMainScreen()
-        ),
-      );
+      Navigator.pushNamed(context, ClientMainScreen.routeName);
     } else {
       print("Error! ${response[1]}");
       setState(() {

@@ -1,5 +1,6 @@
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
+import 'package:agencia_la/screens/client_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:agencia_la/screens/login_screen.dart';
 
@@ -21,9 +22,9 @@ class MyApp extends StatelessWidget {
               print("Firebase initialized!");
 
               if (Auth.getCurrentUser() != null) {
-                return ClientMainScreen();
+                return const ClientMainScreen();
               } else {
-                return LoginScreen();
+                return const LoginScreen();
               }
             }
             return const Scaffold(
