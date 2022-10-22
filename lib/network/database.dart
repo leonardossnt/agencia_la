@@ -125,4 +125,16 @@ class Database {
       return '';
     }
   }
+
+  static Future<String> getClientPicture() async {
+    final ref = FirebaseDatabase.instance.ref();
+    dynamic userInfo =
+      await ref.child('client/${Auth.getCurrentUser()!.uid}/info').get();
+    if (userInfo.exists) {
+      String url = userInfo.value['picture'];
+      return url;
+    } else {
+      return '';
+    }
+  }
 }

@@ -44,13 +44,20 @@ class ClientProfileScreen extends StatelessWidget {
           'Perfil',
           color: AgenciaLaColors.onPrimary,
         ),
-        const Align(
+        Align(
           alignment: Alignment.center,
-          child: CircleAvatar(
-            backgroundColor: AgenciaLaColors.inputBackground,
-            backgroundImage: AssetImage('assets/images/logo_teal.png'),
-            // foregroundImage: NetworkImage(<url here>),
-            radius: 90,
+          child: FutureBuilder(
+            future: Database.getClientPicture(),
+            builder: (context, snapshot) {
+              String pictureUrl = snapshot.hasData ? snapshot.data as String : '';
+
+              return CircleAvatar(
+                backgroundColor: AgenciaLaColors.inputBackground,
+                backgroundImage: AssetImage('assets/images/logo_teal.png'),
+                foregroundImage: snapshot.hasData ? NetworkImage(pictureUrl) : null,
+                radius: 90,
+              );
+            },
           ),
         )
       ],

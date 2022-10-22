@@ -25,6 +25,7 @@ class Client {
         'surname': surname,
         'phone': phone,
         'email': email,
+        'picture': picture ?? "",
       },
       "addresses": addresses ?? "",
       "children": children ?? "",
