@@ -1,6 +1,7 @@
 import 'package:agencia_la/model/client.dart';
 import 'package:agencia_la/model/lanny.dart';
 import 'package:agencia_la/model/order.dart';
+import 'package:agencia_la/network/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -96,4 +97,22 @@ class Database {
 
     return finishedOrders;
   }
+
+  static Future<void> updateClientInfo(Client client, String? newPassword) async {
+     FirebaseDatabase db = FirebaseDatabase.instance;
+    DatabaseReference ref = db.ref("client/${Auth.getCurrentUser()?.uid}/info");
+
+    if(newPassword != null && newPassword.length >= 8){
+      await Auth.getCurrentUser()?.updatePassword(newPassword);
+    }
+
+    await ref.update({
+      "name" : client.name,
+      "surname" : client.surname,
+      "phone" : client.phone,
+      "email" : client.email
+    });
+
+  }
+  
 }
