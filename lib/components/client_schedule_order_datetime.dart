@@ -1,4 +1,5 @@
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/components/client_schedule_order_address.dart';
 import 'package:agencia_la/components/navigate_back.dart';
 import 'package:agencia_la/components/title.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +158,17 @@ class _OrderDateTimeFormState extends State<OrderDateTimeForm> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 36),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) => ClientScheduleOrderAddress(args: <String, String> {
+                  'date': _date.text,
+                  'startTime': _startTime.text,
+                  'endTime': _endTime.text
+                })
+            ),
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: AgenciaLaColors.primary,
           foregroundColor: AgenciaLaColors.onPrimary,
