@@ -1,4 +1,5 @@
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/components/client_schedule_order_datetime.dart';
 import 'package:agencia_la/components/finished_orders.dart';
 import 'package:agencia_la/components/ongoing_order.dart';
 import 'package:agencia_la/components/title.dart';
@@ -47,7 +48,10 @@ class OrderLannyFloatingButton extends StatelessWidget {
       bottom: 16,
       right: 16,
       child: ElevatedButton(
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ClientScheduleOrderDateTime()))
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: AgenciaLaColors.primary,
           foregroundColor: AgenciaLaColors.onPrimary,
