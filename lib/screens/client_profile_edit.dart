@@ -78,13 +78,20 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
               color: AgenciaLaColors.onPrimary,
             ),
             const SizedBox(height: 10),
-            const Align(
+            Align(
               alignment: Alignment.center,
-              child: CircleAvatar(
-                backgroundColor: AgenciaLaColors.inputBackground,
-                backgroundImage: AssetImage('assets/images/logo_teal.png'),
-                // foregroundImage: NetworkImage(<url here>),
-                radius: 68,
+              child: FutureBuilder(
+                future: Database.getClientPicture(),
+                builder: (context, snapshot) {
+                  String pictureUrl = snapshot.hasData ? snapshot.data as String : '';
+
+                  return CircleAvatar(
+                    backgroundColor: AgenciaLaColors.inputBackground,
+                    backgroundImage: AssetImage('assets/images/logo_teal.png'),
+                    foregroundImage: snapshot.hasData ? NetworkImage(pictureUrl) : null,
+                    radius: 68,
+                  );
+                },
               ),
             ),
             Align(
