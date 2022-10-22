@@ -112,7 +112,17 @@ class Database {
       "phone" : client.phone,
       "email" : client.email
     });
-
   }
-  
+
+  static Future<String> getClientFullname() async {
+    final ref = FirebaseDatabase.instance.ref();
+    dynamic userInfo =
+        await ref.child('client/${Auth.getCurrentUser()!.uid}/info').get();
+    if (userInfo.exists) {
+      String name = userInfo.value['name'] + ' ' + userInfo.value['surname'];
+      return name;
+    } else {
+      return '';
+    }
+  }
 }

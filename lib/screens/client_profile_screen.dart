@@ -1,11 +1,10 @@
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/network/database.dart';
 import 'package:agencia_la/screens/client_edit_profile.dart';
 import 'package:agencia_la/screens/login_screen.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class ClientProfileScreen extends StatelessWidget {
   const ClientProfileScreen({super.key});
@@ -60,7 +59,7 @@ class ClientProfileScreen extends StatelessWidget {
 
         bottomChildren: [
           FutureBuilder(
-            future: _getName(),
+            future: Database.getClientFullname(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Container();
