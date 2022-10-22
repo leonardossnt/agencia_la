@@ -1,7 +1,7 @@
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/screens/client_orders_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:agencia_la/screens/client_profile_screen.dart';
+import 'package:flutter/material.dart';
 
 class ClientMainScreen extends StatefulWidget {
   const ClientMainScreen({super.key});
@@ -14,7 +14,6 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     ClientOrdersScreen(),
-    ClientMakeOrder(),
     ClientProfileScreen(),
   ];
 
@@ -37,10 +36,6 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
             label: 'Pedidos',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assignment),
-            label: 'Solicite uma Lanny',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Perfil',
           ),
@@ -54,14 +49,5 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
         onTap: _onItemTapped,
       ),
     );
-  }
-}
-
-class ClientMakeOrder extends StatelessWidget {
-  const ClientMakeOrder({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('Solicitar uma Lanny');
   }
 }
