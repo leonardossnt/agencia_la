@@ -1,4 +1,5 @@
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/components/navigate_back.dart';
 import 'package:agencia_la/components/title.dart';
 import 'package:agencia_la/model/client.dart';
 import 'package:agencia_la/network/auth.dart';
@@ -67,22 +68,9 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
           size: size,
           topChildren: [
             const SizedBox(height: 60),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Row(children: const [
-                    Icon(Icons.arrow_back_ios, color: AgenciaLaColors.onPrimary, size: 24),
-                    Text('Perfil',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: AgenciaLaColors.onPrimary,
-                            fontWeight: FontWeight.w300))
-                  ]),
-                ),
-              ),
+            const NavigateBack(
+              title: 'Perfil',
+              color: AgenciaLaColors.onPrimary,
             ),
             const SizedBox(height: 12),
             const ScreenTitle(
