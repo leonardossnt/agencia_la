@@ -81,7 +81,7 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 4,
       color: AgenciaLaColors.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),

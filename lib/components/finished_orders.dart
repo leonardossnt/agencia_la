@@ -87,7 +87,7 @@ class FinishedOrderCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Card(
-        elevation: 2,
+        elevation: 4,
         color: AgenciaLaColors.background,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
