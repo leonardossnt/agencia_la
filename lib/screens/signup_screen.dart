@@ -10,9 +10,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
-  static const routeName = '/signUpScreen';
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +89,11 @@ class _SignUpFormState extends State<SignUpForm> {
 
     if (response[0] == true) {
       print('Created user! Proceed to sign in');
-      Navigator.pushNamed(context, ClientMainScreen.routeName);
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) => ClientMainScreen()
+        ), (route) => false
+      );
     } else {
       print("Error! ${response[1]}");
       setState(() {

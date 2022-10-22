@@ -14,8 +14,6 @@ import '../model/client.dart';
 class ClientEditProfileScreen extends StatefulWidget {
   const ClientEditProfileScreen({super.key});
 
-  static const routeName = '/clientEditProfileScreen';
-
   @override
   State<ClientEditProfileScreen> createState() => _ClientEditProfileScreenState();
 }

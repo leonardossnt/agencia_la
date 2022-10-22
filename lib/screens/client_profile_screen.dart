@@ -10,9 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 class ClientProfileScreen extends StatelessWidget {
   const ClientProfileScreen({super.key});
 
-  static const routeName = '/clientProfileScreen';
-
-
   void logout(BuildContext context) {
     Auth.clearCurrentUser();
     Navigator.of(context).pushReplacement(
@@ -93,7 +90,11 @@ class ClientProfileScreen extends StatelessWidget {
                     _textOption(
                       'Editar Perfil', 
                       (){
-                        Navigator.pushNamed(context, ClientEditProfileScreen.routeName);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const ClientEditProfileScreen()
+                          ),
+                        );
                       }
                     ),
                     const Divider(thickness: 1.0),
