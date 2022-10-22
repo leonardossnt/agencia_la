@@ -1,10 +1,11 @@
-import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/components/title.dart';
+import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
 import 'package:agencia_la/screens/client_edit_profile.dart';
 import 'package:agencia_la/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class ClientProfileScreen extends StatelessWidget {
   const ClientProfileScreen({super.key});
@@ -21,44 +22,40 @@ class ClientProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return 
-      ProfileScaffold(
-        size: size,
-        topChildren: [
-          Align(
-            alignment: Alignment.topRight,
+    return ProfileScaffold(
+      size: size,
+      topChildren: [
+        const SizedBox(height: 60),
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: IconButton(
-              onPressed: () => logout(context),
-              icon: const Icon(Icons.logout, color: AgenciaLaColors.onPrimary,)
-            ),
+                onPressed: () => logout(context),
+                icon: const Icon(
+                  Icons.logout,
+                  size: 32,
+                  color: AgenciaLaColors.onPrimary,
+                )),
           ),
-          const Text(
-            'Perfil',
-            style: TextStyle(fontSize: 34, color: AgenciaLaColors.onPrimary, fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(height: 12),
+        const ScreenTitle(
+          'Perfil',
+          color: AgenciaLaColors.onPrimary,
+        ),
+        const Align(
+          alignment: Alignment.center,
+          child: CircleAvatar(
+            backgroundColor: AgenciaLaColors.inputBackground,
+            backgroundImage: AssetImage('assets/images/logo_teal.png'),
+            // foregroundImage: NetworkImage(<url here>),
+            radius: 90,
           ),
-          const SizedBox(height: 30),
-          Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: 180,
-              height: 180,
-              child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/images/logo_teal.png',
-                      width: double.infinity,
-                      height: 300, 
-                      fit: BoxFit.cover                 
-                    ),
-                  ),
-                ),
-            ),
-          )
-        ],
-
-        bottomChildren: [
-          FutureBuilder(
+        )
+      ],
+      bottomChildren: [
+        FutureBuilder(
             future: Database.getClientFullname(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -67,90 +64,77 @@ class ClientProfileScreen extends StatelessWidget {
                 String name = snapshot.data as String;
                 return Text(
                   name,
-                  style: const TextStyle(color: AgenciaLaColors.onBackground, fontWeight: FontWeight.bold, fontSize: 26.0),
+                  style: const TextStyle(
+                      color: AgenciaLaColors.onBackground,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 32),
                 );
               }
-            }
-          ),
-
-          const SizedBox(height: 10),
-          SizedBox(
-            width: size.width * 0.9,
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _textOption(
-                      'Editar Perfil', 
-                      (){
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const ClientEditProfileScreen()
-                          ),
-                        );
-                      }
-                    ),
-                    const Divider(thickness: 1.0),
-                    _textOption(
-                      'Fale Conosco',
-                      () async {
-                        var whatsapp ="+5592993557731";
-                        String whatsappURlAndroid = "https://wa.me/$whatsapp";
-                        Uri uri = Uri.parse(whatsappURlAndroid);
-                        if( await canLaunchUrl(uri)){
-                          await launch(whatsappURlAndroid);
-                        }else{
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Não foi possível direcionar ao Whatsapp")));
-                        }
-                      }
-                    )
-                    // _textOption('Carteira', (){Navigator.pop(context);}),
-                    // const Divider(thickness: 1.0),
-                    // _textOption('Crianças', (){Navigator.pop(context);}),
-                    // const Divider(thickness: 1.0),
-                    // _textOption('Endereços Perfil', (){Navigator.pop(context);}),
-                    // const Divider(thickness: 1.0),
-
-                  ],
-                ),
+            }),
+        const SizedBox(height: 24),
+        SizedBox(
+          // width: size.width * 0.9, // TODO: check if it is needed
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  const SizedBox(height: 8),
+                  _profileOption('Editar Perfil', true, () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ClientEditProfileScreen()));
+                  }),
+                  _profileOption('Fale Conosco', false, _talkToUsWhatsapp(context)),
+                  // _profileOption('Carteira', false, () { Navigator.pop(context); }),
+                  // _profileOption('Crianças', false, () { Navigator.pop(context); }),
+                  // _profileOption('Endereços', false, () { Navigator.pop(context); }),
+                  const SizedBox(height: 8),
+                ],
               ),
             ),
-          )
-        ],
-
-
-      );
-
-  }
-
-  _getName() async {
-    final ref = FirebaseDatabase.instance.ref();
-    dynamic userInfo; 
-    userInfo = await ref.child('client/${Auth.getCurrentUser()!.uid}/info').get();
-    if (userInfo.exists) {
-      String name = userInfo.value['name'] + ' ' + userInfo.value['surname'];
-      return name;
-    } else {
-      return '';
-    }
-  }
-
-  _textOption(String text, Function onPressed){
-    return TextButton(
-      onPressed: () => onPressed(), 
-      child: Text(text, style: const TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w500, fontSize: 18),)
+          ),
+        )
+      ],
     );
+  }
 
+  _profileOption(String text, bool firstElement, Function onPressed) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        firstElement ? Container() : const Divider(thickness: 1.0),
+        TextButton(
+            onPressed: () => onPressed(),
+            child: Text(
+              text,
+              style: const TextStyle(
+                  color: AgenciaLaColors.foreground,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 22),
+            ))
+      ],
+    );
+  }
+
+  Function _talkToUsWhatsapp(BuildContext context) {
+    return () async {
+      var wppPhone = "+5592993557731";
+      String wppUrlAndroid = "https://wa.me/$wppPhone";
+      Uri uri = Uri.parse(wppUrlAndroid);
+      if (await UrlLauncher.canLaunchUrl(uri)) {
+        await UrlLauncher.launchUrl(uri);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Não foi possível direcionar ao Whatsapp"),
+        ));
+      }
+    };
   }
 }
-
 
 class ProfileScaffold extends StatelessWidget {
   const ProfileScaffold({
@@ -158,7 +142,6 @@ class ProfileScaffold extends StatelessWidget {
     required Size size,
     List<Widget>? topChildren,
     List<Widget>? bottomChildren,
-
   })  : _size = size,
         _bottomChildren = bottomChildren,
         _topChildren = topChildren,
@@ -184,8 +167,8 @@ class ProfileScaffold extends StatelessWidget {
                 Container(
                   width: _size.width,
                   height: 180,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                  decoration: const BoxDecoration(
+                    color: AgenciaLaColors.primary,
                   ),
                 ),
                 Positioned(
@@ -193,38 +176,31 @@ class ProfileScaffold extends StatelessWidget {
                   child: Container(
                     width: 600,
                     height: 600,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                    decoration: const BoxDecoration(
+                      color: AgenciaLaColors.primary,
                       shape: BoxShape.circle,
                     ),
                   ),
-      
                 ),
-      
                 Positioned(
-                  top: 30,
+                  top: 0,
                   child: SizedBox(
                     width: _size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: _topChildren ?? []
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: _topChildren ?? []
                     ),
                   )
                 )
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 220, 20, 0),
+              padding: const EdgeInsets.fromLTRB(24, 200, 24, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: _bottomChildren ?? []
               ),
             )
-
-      
           ],
         ),
       ),
