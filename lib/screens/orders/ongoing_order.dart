@@ -1,11 +1,12 @@
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/model/lanny.dart';
 import 'package:agencia_la/model/order.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
+import 'package:agencia_la/screens/components/title.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
-import 'title.dart';
 
 class OngoingOrders extends StatelessWidget {
   const OngoingOrders({Key? key}) : super(key: key);
@@ -91,69 +92,7 @@ class OrderCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  backgroundColor: AgenciaLaColors.inputBackground,
-                  backgroundImage: AssetImage('assets/images/logo_teal.png'),
-                  foregroundImage: NetworkImage(order.lanny.picture),
-                  radius: 52,
-                ),
-                SizedBox(width: 24),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Lanny ${order.lanny.name}",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                          color: AgenciaLaColors.foreground,
-                        ),
-                      ),
-                      Text(
-                        "${order.lanny.age()} anos",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: AgenciaLaColors.foreground,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.phone,
-                            color: AgenciaLaColors.foreground,
-                          ),
-                          SizedBox(width: 8),
-                          InkWell(
-                            onTap: () => {
-                              UrlLauncher.launchUrl(Uri.parse('tel:${order.lanny.phone}'))
-                            },
-                            child: Text(
-                              order.lanny.phone,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: AgenciaLaColors.primary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            _lannyInfo(order.lanny),
             SizedBox(height: 24),
             Row(
               children: [
@@ -217,5 +156,82 @@ class OrderCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _lannyInfo(Lanny? lanny) {
+    if (lanny == null) {
+      return Text("Aguardando uma Lanny...",
+        style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        color: AgenciaLaColors.foreground,
+      ),);
+    } else {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircleAvatar(
+            backgroundColor: AgenciaLaColors.inputBackground,
+            backgroundImage: AssetImage('assets/images/logo_teal.png'),
+            foregroundImage: NetworkImage(lanny.picture),
+            radius: 52,
+          ),
+          SizedBox(width: 24),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Lanny ${lanny.name}",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    color: AgenciaLaColors.foreground,
+                  ),
+                ),
+                Text(
+                  "${lanny.age()} anos",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: AgenciaLaColors.foreground,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.phone,
+                      color: AgenciaLaColors.foreground,
+                    ),
+                    SizedBox(width: 8),
+                    InkWell(
+                      onTap: () =>
+                      {
+                        UrlLauncher.launchUrl(
+                            Uri.parse('tel:${lanny.phone}'))
+                      },
+                      child: Text(
+                        lanny.phone,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AgenciaLaColors.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
   }
 }

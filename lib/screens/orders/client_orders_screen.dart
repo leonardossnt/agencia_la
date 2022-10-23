@@ -1,8 +1,8 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/client_schedule_order_datetime.dart';
-import 'package:agencia_la/components/finished_orders.dart';
-import 'package:agencia_la/components/ongoing_order.dart';
-import 'package:agencia_la/components/title.dart';
+import 'package:agencia_la/screens/components/title.dart';
+import 'package:agencia_la/screens/orders/finished_orders.dart';
+import 'package:agencia_la/screens/orders/ongoing_order.dart';
+import 'package:agencia_la/screens/schedule/client_schedule_order_datetime.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersScreen extends StatelessWidget {

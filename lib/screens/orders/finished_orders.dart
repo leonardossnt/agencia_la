@@ -2,9 +2,9 @@ import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/model/order.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
+import 'package:agencia_la/screens/components/title.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'title.dart';
 
 class FinishedOrders extends StatefulWidget {
   const FinishedOrders({Key? key}) : super(key: key);
@@ -100,7 +100,7 @@ class FinishedOrderCard extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: AgenciaLaColors.inputBackground,
                 backgroundImage: AssetImage('assets/images/logo_teal.png'),
-                foregroundImage: NetworkImage(order.lanny.picture),
+                foregroundImage: NetworkImage(order.lanny?.picture ?? ''),
                 radius: 40,
               ),
               SizedBox(width: 24),
@@ -117,7 +117,7 @@ class FinishedOrderCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Lanny ${order.lanny.name}",
+                    "Lanny ${order.lanny?.name}",
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
