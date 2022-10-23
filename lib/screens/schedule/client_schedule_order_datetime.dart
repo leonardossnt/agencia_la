@@ -93,7 +93,7 @@ class _OrderDateTimeFormState extends State<OrderDateTimeForm> {
               var args = {
                 'date': _date.text,
                 'startTime': _startTime.text,
-                'duration': _duration.text
+                'duration': '${_duration.text}h'
               };
 
               Navigator.of(context).push(
