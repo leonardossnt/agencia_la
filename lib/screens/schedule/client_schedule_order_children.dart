@@ -1,6 +1,7 @@
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/screens/components/navigate_back.dart';
 import 'package:agencia_la/screens/components/title.dart';
+import 'package:agencia_la/screens/schedule/client_schedule_confirmation.dart';
 import 'package:agencia_la/screens/schedule/schedule_confirm_button.dart';
 import 'package:agencia_la/screens/schedule/schedule_custom_field.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class _OrderChildrenFormState extends State<OrderChildrenForm> {
             isMultiLine: true),
         const SizedBox(height: 16),
         scheduleConfirmButton(
-            text: 'Revisar pedido',
+            text: 'Solicitar Lanny',
             onPressed: () {
               var args = widget.args;
 
@@ -105,6 +106,12 @@ class _OrderChildrenFormState extends State<OrderChildrenForm> {
                 "child_kinship": _childKinship.text,
                 "child_comments": _childComments.text,
               });
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ClientScheduleConfirmation(args: args)),
+              );
             }),
         const SizedBox(height: 16),
       ],
