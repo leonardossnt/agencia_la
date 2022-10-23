@@ -22,7 +22,7 @@ class Database {
       return null;
     }
 
-    var allOrders = snapshotAllOrders.value as List;
+    var allOrders = snapshotAllOrders.value as LinkedHashMap<Object?, Object?>;
 
     // second: get all lannies
     var snapshotAllLannies = await db.ref('lanny').get();
@@ -57,9 +57,12 @@ class Database {
 
     for (var orderKey in ongoingOrdersKeys) {
       var orderJson = allOrders[orderKey];
-      var lannyJson = allLannies[orderJson["lanny"]];
+      var lanny;
+      if (orderJson["lanny"] != null) {
+        var lannyJson = allLannies[orderJson["lanny"]];
+        lanny = Lanny.fromJson(lannyJson);
+      }
 
-      var lanny = Lanny.fromJson(lannyJson);
       var order = Order.fromJson(orderJson, lanny);
       ongoingOrders.add(order);
     }
@@ -88,7 +91,11 @@ class Database {
 
     for (var orderKey in finishedOrdersKeys) {
       var orderJson = allOrders[orderKey];
-      var lannyJson = allLannies[orderJson["lanny"]];
+      var lanny;
+      if (orderJson["lanny"] != null) {
+        var lannyJson = allLannies[orderJson["lanny"]];
+        lanny = Lanny.fromJson(lannyJson);
+      }
 
       var lanny = Lanny.fromJson(lannyJson);
       var order = Order.fromJson(orderJson, lanny);
