@@ -100,7 +100,7 @@ class FinishedOrderCard extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: AgenciaLaColors.inputBackground,
                 backgroundImage: AssetImage('assets/images/logo_teal.png'),
-                foregroundImage: NetworkImage(order.lanny.picture),
+                foregroundImage: NetworkImage(order.lanny?.picture ?? ''),
                 radius: 40,
               ),
               SizedBox(width: 24),
@@ -117,7 +117,7 @@ class FinishedOrderCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Lanny ${order.lanny.name}",
+                    "Lanny ${order.lanny?.name}",
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
