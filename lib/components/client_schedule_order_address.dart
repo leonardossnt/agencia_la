@@ -1,10 +1,13 @@
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/components/navigate_back.dart';
+import 'package:agencia_la/components/schedule_confirm_button.dart';
+import 'package:agencia_la/components/schedule_custom_field.dart';
 import 'package:agencia_la/components/title.dart';
 import 'package:flutter/material.dart';
 
 class ClientScheduleOrderAddress extends StatelessWidget {
-  const ClientScheduleOrderAddress({Key? key, required this.args}) : super(key: key);
+  const ClientScheduleOrderAddress({Key? key, required this.args})
+      : super(key: key);
   final Map<String, String> args;
 
   @override
@@ -61,61 +64,24 @@ class _OrderAddressFormState extends State<OrderAddressForm> {
     return Column(
       children: [
         const SectionTitle("Informe o local"),
-        _orderAddressField(),
-        SizedBox(height: 16),
-        _orderAddressConfirmButton(),
+        SizedBox(height: 8),
+        scheduleCustomField(
+          hintText: 'Endereço',
+          controller: _address,
+          icon: Icon(Icons.location_on),
+          keyboardType: TextInputType.streetAddress,
+          isMultiLine: true,
+        ),
+        SizedBox(height: 8),
+        scheduleConfirmButton(
+          text: 'Continuar para crianças',
+          onPressed: () {
+            var args = {"address": _address.text};
+            args.addAll(widget.args);
+          },
+        ),
         SizedBox(height: 16),
       ],
-    );
-  }
-
-  _orderAddressField() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
-      child: Card(
-        elevation: 4,
-        color: AgenciaLaColors.background,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Container(
-          width: Size.infinite.width,
-          padding: EdgeInsets.all(16),
-          child: TextFormField(
-            controller: _address,
-            keyboardType: TextInputType.streetAddress,
-            maxLines: null,
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.location_on),
-              prefixIconColor: AgenciaLaColors.secondary,
-              border: InputBorder.none,
-              hintText: 'Endereço',
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  _orderAddressConfirmButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 36),
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AgenciaLaColors.primary,
-          foregroundColor: AgenciaLaColors.onPrimary,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          minimumSize: const Size(double.infinity, 60),
-        ),
-        child: const Text(
-          "Continuar para crianças",
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
     );
   }
 }

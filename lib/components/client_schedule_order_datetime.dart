@@ -1,9 +1,10 @@
 import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/components/client_schedule_order_address.dart';
 import 'package:agencia_la/components/navigate_back.dart';
+import 'package:agencia_la/components/schedule_confirm_button.dart';
+import 'package:agencia_la/components/schedule_custom_field.dart';
 import 'package:agencia_la/components/title.dart';
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ClientScheduleOrderDateTime extends StatelessWidget {
   const ClientScheduleOrderDateTime({Key? key}) : super(key: key);
@@ -62,127 +63,47 @@ class _OrderDateTimeFormState extends State<OrderDateTimeForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SectionTitle("Escolha os dias"),
-        _orderDatePicker(),
+        const SectionTitle("Escolha o dia"),
         SizedBox(height: 8),
+        scheduleCustomField(
+            hintText: 'Dia',
+            controller: _date,
+            icon: const Icon(Icons.calendar_month),
+            dateFormatter: true,
+            keyboardType: TextInputType.datetime),
+        SizedBox(height: 24),
         const SectionTitle("Defina o horário"),
-        _orderTimePicker(),
         SizedBox(height: 16),
-        _orderDateTimeConfirmButton(),
+        scheduleCustomField(
+            hintText: 'Horário de início',
+            controller: _startTime,
+            icon: Icon(Icons.access_time),
+            keyboardType: TextInputType.datetime,
+            timeFormatter: true),
+        scheduleCustomField(
+            hintText: 'Horário final',
+            controller: _endTime,
+            icon: Icon(Icons.access_time),
+            keyboardType: TextInputType.datetime,
+            timeFormatter: true),
+        SizedBox(height: 16),
+        scheduleConfirmButton(
+            text: 'Continuar para local',
+            onPressed: () {
+              var args = {
+                'date': _date.text,
+                'startTime': _startTime.text,
+                'endTime': _endTime.text
+              };
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ClientScheduleOrderAddress(args: args)),
+              );
+            }),
         SizedBox(height: 16),
       ],
-    );
-  }
-
-  _orderDatePicker() {
-    MaskTextInputFormatter maskFormatterDate = MaskTextInputFormatter(
-        mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')});
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
-      child: Card(
-        elevation: 4,
-        color: AgenciaLaColors.background,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Container(
-          width: Size.infinite.width,
-          padding: EdgeInsets.all(16),
-          child: TextFormField(
-            controller: _date,
-            inputFormatters: [maskFormatterDate],
-            keyboardType: TextInputType.datetime,
-            decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.calendar_month),
-                prefixIconColor: AgenciaLaColors.secondary,
-                border: InputBorder.none,
-                hintText: 'Dia',
-                contentPadding: EdgeInsets.only(left: 30, top: 15),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  _orderTimePicker() {
-    MaskTextInputFormatter maskFormatterTime = MaskTextInputFormatter(
-        mask: '##:##', filter: {"#": RegExp(r'[0-9]')});
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
-      child: Card(
-        elevation: 4,
-        color: AgenciaLaColors.background,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Container(
-          width: Size.infinite.width,
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _startTime,
-                inputFormatters: [maskFormatterTime],
-                keyboardType: TextInputType.datetime,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.access_time),
-                  prefixIconColor: AgenciaLaColors.secondary,
-                  border: InputBorder.none,
-                  hintText: 'Horário inicial',
-                  contentPadding: EdgeInsets.only(left: 30, top: 15),
-                ),
-              ),
-              TextFormField(
-                controller: _endTime,
-                inputFormatters: [maskFormatterTime],
-                keyboardType: TextInputType.datetime,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.access_time),
-                  prefixIconColor: AgenciaLaColors.secondary,
-                  border: InputBorder.none,
-                  hintText: 'Horário final',
-                  contentPadding: EdgeInsets.only(left: 30, top: 15),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _orderDateTimeConfirmButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 36),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => ClientScheduleOrderAddress(args: <String, String> {
-                  'date': _date.text,
-                  'startTime': _startTime.text,
-                  'endTime': _endTime.text
-                })
-            ),
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AgenciaLaColors.primary,
-          foregroundColor: AgenciaLaColors.onPrimary,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          minimumSize: const Size(double.infinity, 60),
-        ),
-        child: const Text(
-          "Continuar para local",
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
     );
   }
 }
