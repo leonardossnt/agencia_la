@@ -160,7 +160,12 @@ class OrderCard extends StatelessWidget {
 
   _lannyInfo(Lanny? lanny) {
     if (lanny == null) {
-      return Text("A procura de uma lanny");
+      return Text("Aguardando uma Lanny...",
+        style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        color: AgenciaLaColors.foreground,
+      ),);
     } else {
       return Row(
         mainAxisSize: MainAxisSize.min,
