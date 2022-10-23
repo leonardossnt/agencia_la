@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 scheduleConfirmButton({
   required String text,
   required Function onPressed,
+  bool isLoading = false
 }) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 36),
@@ -20,9 +21,9 @@ scheduleConfirmButton({
         ),
         minimumSize: const Size(double.infinity, 60),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 24),
+      child: isLoading
+          ? const CircularProgressIndicator()
+          : Text(text, style: const TextStyle(fontSize: 24),
       ),
     ),
   );
