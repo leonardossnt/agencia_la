@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:agencia_la/model/client.dart';
 import 'package:agencia_la/model/lanny.dart';
 import 'package:agencia_la/model/order.dart';
@@ -97,7 +99,6 @@ class Database {
         lanny = Lanny.fromJson(lannyJson);
       }
 
-      var lanny = Lanny.fromJson(lannyJson);
       var order = Order.fromJson(orderJson, lanny);
       finishedOrders.add(order);
     }
@@ -143,5 +144,24 @@ class Database {
     } else {
       return '';
     }
+  }
+
+  static Future<bool> addOrder(String uid, Order order) async {
+    final ordersRef = FirebaseDatabase.instance.ref("orders");
+    var newOrderRef = ordersRef.push();
+    var newOrderKey = newOrderRef.key as String;
+    await newOrderRef.set(order.toJson());
+
+    final clientRef = FirebaseDatabase.instance.ref("client/$uid/ongoingOrders");
+    DataSnapshot snapshot = await clientRef.get();
+    if (!snapshot.exists) return false;
+
+    var ongoingOrders = [];
+    if (snapshot.value != "") {
+      ongoingOrders.addAll(snapshot.value as List);
+    }
+    ongoingOrders.add(newOrderKey);
+    await clientRef.set(ongoingOrders);
+    return true;
   }
 }
