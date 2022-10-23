@@ -20,7 +20,18 @@ class Order {
       required this.status
   });
 
-  static Order fromJson(dynamic data, Lanny lanny) {
+  Object toJson() {
+    return {
+      'date': date,
+      'time': time,
+      'duration': duration,
+      'address': address,
+      'status': status,
+      'children': child.toJson(),
+    };
+  }
+
+  static Order fromJson(dynamic data, Lanny? lanny) {
     return Order(
         lanny: lanny,
         child: Child.fromJson(data["children"]), // TODO: fix this when children is a List
