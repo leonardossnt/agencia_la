@@ -10,12 +10,15 @@ scheduleCustomField({
   TextInputType keyboardType = TextInputType.name,
   bool dateFormatter = false,
   bool timeFormatter = false,
+  bool durationFormatter = false,
   bool isMultiLine = false,
 }) {
   MaskTextInputFormatter maskFormatterDate = MaskTextInputFormatter(
       mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')});
   MaskTextInputFormatter maskFormatterTime =
       MaskTextInputFormatter(mask: '##:##', filter: {"#": RegExp(r'[0-9]')});
+  MaskTextInputFormatter maskFormatterDuration = MaskTextInputFormatter(
+      mask: '##h', filter: {"#": RegExp(r'[0-9]')});
 
   List<TextInputFormatter> inputFormatters = [];
 
@@ -24,6 +27,9 @@ scheduleCustomField({
   }
   if (timeFormatter) {
     inputFormatters.add(maskFormatterTime);
+  }
+  if (durationFormatter) {
+    inputFormatters.add(maskFormatterDuration);
   }
 
   return Padding(

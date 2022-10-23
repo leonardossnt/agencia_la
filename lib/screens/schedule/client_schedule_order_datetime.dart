@@ -57,7 +57,7 @@ class OrderDateTimeForm extends StatefulWidget {
 class _OrderDateTimeFormState extends State<OrderDateTimeForm> {
   final TextEditingController _date = TextEditingController();
   final TextEditingController _startTime = TextEditingController();
-  final TextEditingController _endTime = TextEditingController();
+  final TextEditingController _duration = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +81,11 @@ class _OrderDateTimeFormState extends State<OrderDateTimeForm> {
             keyboardType: TextInputType.datetime,
             timeFormatter: true),
         scheduleCustomField(
-            hintText: 'Horário final',
-            controller: _endTime,
+            hintText: 'Duração',
+            controller: _duration,
             icon: Icon(Icons.access_time),
-            keyboardType: TextInputType.datetime,
-            timeFormatter: true),
+            keyboardType: TextInputType.number,
+            durationFormatter: true),
         SizedBox(height: 16),
         scheduleConfirmButton(
             text: 'Continuar para local',
@@ -93,7 +93,7 @@ class _OrderDateTimeFormState extends State<OrderDateTimeForm> {
               var args = {
                 'date': _date.text,
                 'startTime': _startTime.text,
-                'endTime': _endTime.text
+                'duration': _duration.text
               };
 
               Navigator.of(context).push(
