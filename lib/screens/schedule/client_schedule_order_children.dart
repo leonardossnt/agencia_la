@@ -1,8 +1,8 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/navigate_back.dart';
-import 'package:agencia_la/components/schedule_confirm_button.dart';
-import 'package:agencia_la/components/schedule_custom_field.dart';
-import 'package:agencia_la/components/title.dart';
+import 'package:agencia_la/screens/components/navigate_back.dart';
+import 'package:agencia_la/screens/components/title.dart';
+import 'package:agencia_la/screens/schedule/schedule_confirm_button.dart';
+import 'package:agencia_la/screens/schedule/schedule_custom_field.dart';
 import 'package:flutter/material.dart';
 
 class ClientScheduleOrderChildren extends StatelessWidget {
@@ -105,12 +105,6 @@ class _OrderChildrenFormState extends State<OrderChildrenForm> {
                 "child_kinship": _childKinship.text,
                 "child_comments": _childComments.text,
               });
-
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //       builder: (context) => ClientScheduleOrderAddress(args: args)
-              //   ),
-              // );
             }),
         const SizedBox(height: 16),
       ],

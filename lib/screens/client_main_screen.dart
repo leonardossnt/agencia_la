@@ -1,6 +1,6 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/screens/client_orders_screen.dart';
-import 'package:agencia_la/screens/client_profile_screen.dart';
+import 'package:agencia_la/screens/orders/client_orders_screen.dart';
+import 'package:agencia_la/screens/profile/client_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class ClientMainScreen extends StatefulWidget {

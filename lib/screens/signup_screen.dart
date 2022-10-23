@@ -1,8 +1,8 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/title.dart';
 import 'package:agencia_la/model/client.dart';
 import 'package:agencia_la/network/register.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
+import 'package:agencia_la/screens/components/title.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -83,17 +83,16 @@ class _SignUpFormState extends State<SignUpForm> {
       _showAuthError = false;
     });
 
-    var client = Client(name: name, surname: surname, phone: phone, email: email);
+    var client =
+        Client(name: name, surname: surname, phone: phone, email: email);
 
     response = await RegisterClient.registerClient(client, password);
 
     if (response[0] == true) {
       print('Created user! Proceed to sign in');
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-            builder: (context) => ClientMainScreen()
-        ), (route) => false
-      );
+          MaterialPageRoute(builder: (context) => ClientMainScreen()),
+          (route) => false);
     } else {
       print("Error! ${response[1]}");
       setState(() {
@@ -113,7 +112,6 @@ class _SignUpFormState extends State<SignUpForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             TextFormField(
               controller: _name,
               keyboardType: TextInputType.name,
@@ -136,8 +134,6 @@ class _SignUpFormState extends State<SignUpForm> {
                 return null;
               },
             ),
-
-
             const SizedBox(height: 16),
             TextFormField(
               controller: _surname,
@@ -161,8 +157,6 @@ class _SignUpFormState extends State<SignUpForm> {
                 return null;
               },
             ),
-
-
             const SizedBox(height: 16),
             TextFormField(
               controller: _phone,
@@ -187,8 +181,6 @@ class _SignUpFormState extends State<SignUpForm> {
                 return null;
               },
             ),
-
-
             const SizedBox(height: 16),
             TextFormField(
               controller: _email,
@@ -215,8 +207,6 @@ class _SignUpFormState extends State<SignUpForm> {
                 }
               },
             ),
-
-
             const SizedBox(height: 16),
             TextFormField(
               controller: _password,
@@ -249,15 +239,12 @@ class _SignUpFormState extends State<SignUpForm> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Insira uma senha';
-                }
-                else if(value.length < 8){
+                } else if (value.length < 8) {
                   return 'Sua senha deve conter no mínimo 8 caracteres';
                 }
                 return null;
               },
             ),
-
-
             const SizedBox(height: 16),
             TextFormField(
               controller: _confirmPassword,
@@ -290,14 +277,12 @@ class _SignUpFormState extends State<SignUpForm> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Confirme sua senha';
-                } else if(value != _password.text){
+                } else if (value != _password.text) {
                   return 'As senhas não correspondem';
                 }
                 return null;
               },
             ),
-
-
             const SizedBox(height: 16),
             const DisclaimerCheckbox(),
             const SizedBox(height: 32),
@@ -313,7 +298,10 @@ class _SignUpFormState extends State<SignUpForm> {
                 ],
               ),
             ),
-            SignUpButton(signUp: signUp, formKey: _formKey,),
+            SignUpButton(
+              signUp: signUp,
+              formKey: _formKey,
+            ),
           ],
         ),
       ),
@@ -333,36 +321,33 @@ class _DisclaimerCheckboxState extends State<DisclaimerCheckbox> {
 
   @override
   Widget build(BuildContext context) {
-    return FormField(
-      validator: (value) {
-        if(_isDisclaimerChecked != true){
-          return 'Aceite os termos de uso para prosseguir.';
-        }
-        return null;
-      },
-      builder: (context) {
-        return Column(
-          children: [
-            CheckboxListTile(
-                value: _isDisclaimerChecked,
-                contentPadding: EdgeInsets.zero,
-                title: const DisclaimerText(),
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (bool? value) => {
-                  setState(() {
-                    _isDisclaimerChecked = !_isDisclaimerChecked;
-                  })
-                },
-            ),
-            Text(
-              context.errorText ?? '',
-              style: const TextStyle(color: AgenciaLaColors.negative),
-              textAlign: TextAlign.start,
-            )
-          ],
-        );
+    return FormField(validator: (value) {
+      if (_isDisclaimerChecked != true) {
+        return 'Aceite os termos de uso para prosseguir.';
       }
-    );
+      return null;
+    }, builder: (context) {
+      return Column(
+        children: [
+          CheckboxListTile(
+            value: _isDisclaimerChecked,
+            contentPadding: EdgeInsets.zero,
+            title: const DisclaimerText(),
+            controlAffinity: ListTileControlAffinity.leading,
+            onChanged: (bool? value) => {
+              setState(() {
+                _isDisclaimerChecked = !_isDisclaimerChecked;
+              })
+            },
+          ),
+          Text(
+            context.errorText ?? '',
+            style: const TextStyle(color: AgenciaLaColors.negative),
+            textAlign: TextAlign.start,
+          )
+        ],
+      );
+    });
   }
 }
 
@@ -372,55 +357,61 @@ class DisclaimerText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-        textAlign: TextAlign.start,
-        text: TextSpan(
-          style: const TextStyle(
-            color: AgenciaLaColors.onBackground,
-            fontSize: 14,
-          ),
-          children: <InlineSpan>[
-            const TextSpan(text: 'Li e concordo com os ',),
-            WidgetSpan(
-              child: InkWell(
-                onTap: () => {
-                  // TODO: Termos de uso
-                },
-                child: const Text(
-                  "Termos de Uso",
-                  style: TextStyle(
-                    color: AgenciaLaColors.primary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            const TextSpan(text: ' e ',),
-            WidgetSpan(
-              child: InkWell(
-                onTap: () => {
-                  // TODO: Política de privacidade
-                },
-                child: const Text(
-                  "Política de Privacidade",
-                  style: TextStyle(
-                    color: AgenciaLaColors.primary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            const TextSpan(text: ' desse serviço',),
-          ],
+      textAlign: TextAlign.start,
+      text: TextSpan(
+        style: const TextStyle(
+          color: AgenciaLaColors.onBackground,
+          fontSize: 14,
         ),
-      );
+        children: <InlineSpan>[
+          const TextSpan(
+            text: 'Li e concordo com os ',
+          ),
+          WidgetSpan(
+            child: InkWell(
+              onTap: () => {
+                // TODO: Termos de uso
+              },
+              child: const Text(
+                "Termos de Uso",
+                style: TextStyle(
+                  color: AgenciaLaColors.primary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const TextSpan(
+            text: ' e ',
+          ),
+          WidgetSpan(
+            child: InkWell(
+              onTap: () => {
+                // TODO: Política de privacidade
+              },
+              child: const Text(
+                "Política de Privacidade",
+                style: TextStyle(
+                  color: AgenciaLaColors.primary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const TextSpan(
+            text: ' desse serviço',
+          ),
+        ],
+      ),
+    );
   }
 }
 
-
 class SignUpButton extends StatefulWidget {
   const SignUpButton({required this.signUp, required this.formKey, super.key});
+
   final Function signUp;
   final GlobalKey<FormState> formKey;
 
@@ -448,7 +439,7 @@ class _SignUpButtonState extends State<SignUpButton> {
     return ElevatedButton(
       onPressed: () {
         if (widget.formKey.currentState!.validate()) {
-          if(isAuthenticating == false){
+          if (isAuthenticating == false) {
             return signUp();
           }
           return;
@@ -461,12 +452,12 @@ class _SignUpButtonState extends State<SignUpButton> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         minimumSize: const Size(double.infinity, 60),
       ),
-      child: isAuthenticating ?
-      const CircularProgressIndicator() :
-      const Text(
-        "Concluir cadastro",
-        style: TextStyle(fontSize: 24),
-      ),
+      child: isAuthenticating
+          ? const CircularProgressIndicator()
+          : const Text(
+              "Concluir cadastro",
+              style: TextStyle(fontSize: 24),
+            ),
     );
   }
 }

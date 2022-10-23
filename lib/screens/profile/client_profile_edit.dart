@@ -1,11 +1,11 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/navigate_back.dart';
-import 'package:agencia_la/components/title.dart';
 import 'package:agencia_la/model/client.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
-import 'package:agencia_la/screens/client_profile_screen.dart';
+import 'package:agencia_la/screens/components/navigate_back.dart';
+import 'package:agencia_la/screens/components/title.dart';
+import 'package:agencia_la/screens/profile/client_profile_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -83,12 +83,14 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
               child: FutureBuilder(
                 future: Database.getClientPicture(),
                 builder: (context, snapshot) {
-                  String pictureUrl = snapshot.hasData ? snapshot.data as String : '';
+                  String pictureUrl =
+                      snapshot.hasData ? snapshot.data as String : '';
 
                   return CircleAvatar(
                     backgroundColor: AgenciaLaColors.inputBackground,
                     backgroundImage: AssetImage('assets/images/logo_teal.png'),
-                    foregroundImage: snapshot.hasData ? NetworkImage(pictureUrl) : null,
+                    foregroundImage:
+                        snapshot.hasData ? NetworkImage(pictureUrl) : null,
                     radius: 68,
                   );
                 },
@@ -125,7 +127,8 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
           ],
           bottomChildren: [
             const SizedBox(height: 8),
-            isLoading ? const CircularProgressIndicator()
+            isLoading
+                ? const CircularProgressIndicator()
                 : Form(
                     key: _formKey,
                     child: Column(

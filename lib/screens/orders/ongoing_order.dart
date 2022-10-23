@@ -2,10 +2,10 @@ import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/model/order.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
+import 'package:agencia_la/screens/components/title.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
-import 'title.dart';
 
 class OngoingOrders extends StatelessWidget {
   const OngoingOrders({Key? key}) : super(key: key);
@@ -136,7 +136,8 @@ class OrderCard extends StatelessWidget {
                           SizedBox(width: 8),
                           InkWell(
                             onTap: () => {
-                              UrlLauncher.launchUrl(Uri.parse('tel:${order.lanny.phone}'))
+                              UrlLauncher.launchUrl(
+                                  Uri.parse('tel:${order.lanny.phone}'))
                             },
                             child: Text(
                               order.lanny.phone,

@@ -2,9 +2,9 @@ import 'package:agencia_la/colors.dart';
 import 'package:agencia_la/model/order.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
+import 'package:agencia_la/screens/components/title.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'title.dart';
 
 class FinishedOrders extends StatefulWidget {
   const FinishedOrders({Key? key}) : super(key: key);

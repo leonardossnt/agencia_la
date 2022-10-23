@@ -1,7 +1,7 @@
-import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/title.dart';
+import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/screens/client_main_screen.dart';
+import 'package:agencia_la/screens/components/title.dart';
 import 'package:agencia_la/screens/signup_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -24,25 +24,25 @@ class LoginScreen extends StatelessWidget {
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
             return SingleChildScrollView(
-                child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: viewportConstraints.maxHeight,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[
-                        SizedBox(height: 120),
-                        ScreenTitle("Bem vindo!"),
-                        SizedBox(height: 84),
-                        Logo(),
-                        SizedBox(height: 48),
-                        LoginForm(),
-                        SizedBox(height: 48),
-                        SignUpText(),
-                        SizedBox(height: 32)
-                      ],
-                    ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
                 ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const <Widget>[
+                    SizedBox(height: 120),
+                    ScreenTitle("Bem vindo!"),
+                    SizedBox(height: 84),
+                    Logo(),
+                    SizedBox(height: 48),
+                    LoginForm(),
+                    SizedBox(height: 48),
+                    SignUpText(),
+                    SizedBox(height: 32)
+                  ],
+                ),
+              ),
             );
           },
         ),
@@ -57,9 +57,8 @@ class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 84),
-      child: Image.asset('assets/images/agenciala.png')
-    );
+        padding: const EdgeInsets.symmetric(horizontal: 84),
+        child: Image.asset('assets/images/agenciala.png'));
   }
 }
 
@@ -87,16 +86,13 @@ class _LoginFormState extends State<LoginForm> {
       _showAuthError = false;
     });
 
-    response = await Auth.signInUsingEmailPassword(
-       email: login, password: password
-    );
+    response =
+        await Auth.signInUsingEmailPassword(email: login, password: password);
 
     if (response[0] == true) {
       print('User found! Proceed to sign in');
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-            builder: (context) => ClientMainScreen()
-        ),
+        MaterialPageRoute(builder: (context) => ClientMainScreen()),
       );
     } else {
       print("Error! ${response[1]}");
@@ -158,7 +154,7 @@ class _LoginFormState extends State<LoginForm> {
                     setState(() {
                       _isPasswordObscured = !_isPasswordObscured;
                     });
-                    },
+                  },
                 ),
                 border: OutlineInputBorder(
                     borderSide: const BorderSide(
@@ -189,8 +185,10 @@ class _LoginFormState extends State<LoginForm> {
                 ],
               ),
             ),
-
-            LoginButton(login: login, formKey: _formKey,),
+            LoginButton(
+              login: login,
+              formKey: _formKey,
+            ),
           ],
         ),
       ),
@@ -200,9 +198,9 @@ class _LoginFormState extends State<LoginForm> {
 
 class LoginButton extends StatefulWidget {
   const LoginButton({required this.login, required this.formKey, super.key});
+
   final Function login;
   final GlobalKey<FormState> formKey;
-
 
   @override
   State<LoginButton> createState() => _LoginButtonState();
@@ -228,7 +226,7 @@ class _LoginButtonState extends State<LoginButton> {
     return ElevatedButton(
       onPressed: () {
         if (widget.formKey.currentState!.validate()) {
-          if (isAuthenticating == false){
+          if (isAuthenticating == false) {
             return login();
           }
           return;
@@ -241,12 +239,12 @@ class _LoginButtonState extends State<LoginButton> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         minimumSize: const Size(double.infinity, 60),
       ),
-      child: isAuthenticating ?
-      const CircularProgressIndicator() :
-      const Text(
-        "Entrar",
-        style: TextStyle(fontSize: 24),
-      ),
+      child: isAuthenticating
+          ? const CircularProgressIndicator()
+          : const Text(
+              "Entrar",
+              style: TextStyle(fontSize: 24),
+            ),
     );
   }
 }
@@ -257,37 +255,35 @@ class SignUpText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              text: 'Ainda não possui conta? ',
-              style: const TextStyle(
-                color: AgenciaLaColors.onBackground,
-                fontSize: 16,
-              ),
-              children: <InlineSpan>[
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.baseline,
-                  baseline: TextBaseline.alphabetic,
-                  child: InkWell(
-                    onTap: () => {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SignUpScreen()
-                        ),
-                      ),
-                    },
-                    child: const Text(
-                      "Cadastre-se",
-                      style: TextStyle(
-                        color: AgenciaLaColors.primary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        text: 'Ainda não possui conta? ',
+        style: const TextStyle(
+          color: AgenciaLaColors.onBackground,
+          fontSize: 16,
+        ),
+        children: <InlineSpan>[
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: InkWell(
+              onTap: () => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => SignUpScreen()),
                 ),
-              ],
+              },
+              child: const Text(
+                "Cadastre-se",
+                style: TextStyle(
+                  color: AgenciaLaColors.primary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          );
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/client_schedule_order_children.dart';
-import 'package:agencia_la/components/navigate_back.dart';
-import 'package:agencia_la/components/schedule_confirm_button.dart';
-import 'package:agencia_la/components/schedule_custom_field.dart';
-import 'package:agencia_la/components/title.dart';
+import 'package:agencia_la/screens/components/navigate_back.dart';
+import 'package:agencia_la/screens/components/title.dart';
+import 'package:agencia_la/screens/schedule/client_schedule_order_children.dart';
+import 'package:agencia_la/screens/schedule/schedule_confirm_button.dart';
+import 'package:agencia_la/screens/schedule/schedule_custom_field.dart';
 import 'package:flutter/material.dart';
 
 class ClientScheduleOrderAddress extends StatelessWidget {

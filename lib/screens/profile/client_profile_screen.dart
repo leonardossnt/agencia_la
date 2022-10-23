@@ -1,9 +1,9 @@
 import 'package:agencia_la/colors.dart';
-import 'package:agencia_la/components/title.dart';
 import 'package:agencia_la/network/auth.dart';
 import 'package:agencia_la/network/database.dart';
-import 'package:agencia_la/screens/client_profile_edit.dart';
+import 'package:agencia_la/screens/components/title.dart';
 import 'package:agencia_la/screens/login_screen.dart';
+import 'package:agencia_la/screens/profile/client_profile_edit.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -13,9 +13,7 @@ class ClientProfileScreen extends StatelessWidget {
   void logout(BuildContext context) {
     Auth.clearCurrentUser();
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-          builder: (context) => const LoginScreen()
-      ),
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 
@@ -35,12 +33,14 @@ class ClientProfileScreen extends StatelessWidget {
           child: FutureBuilder(
             future: Database.getClientPicture(),
             builder: (context, snapshot) {
-              String pictureUrl = snapshot.hasData ? snapshot.data as String : '';
+              String pictureUrl =
+                  snapshot.hasData ? snapshot.data as String : '';
 
               return CircleAvatar(
                 backgroundColor: AgenciaLaColors.inputBackground,
                 backgroundImage: AssetImage('assets/images/logo_teal.png'),
-                foregroundImage: snapshot.hasData ? NetworkImage(pictureUrl) : null,
+                foregroundImage:
+                    snapshot.hasData ? NetworkImage(pictureUrl) : null,
                 radius: 90,
               );
             },
@@ -81,7 +81,8 @@ class ClientProfileScreen extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const ClientProfileEditScreen()));
                   }),
-                  _profileOption('Fale Conosco', false, _talkToUsWhatsapp(context)),
+                  _profileOption(
+                      'Fale Conosco', false, _talkToUsWhatsapp(context)),
                   // _profileOption('Carteira', false, () { Navigator.pop(context); }),
                   // _profileOption('Crianças', false, () { Navigator.pop(context); }),
                   // _profileOption('Endereços', false, () { Navigator.pop(context); }),
@@ -123,7 +124,7 @@ class ClientProfileScreen extends StatelessWidget {
         await UrlLauncher.launchUrl(uri);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Não foi possível direcionar ao Whatsapp"),
+          content: Text("Não foi possível direcionar ao Whatsapp"),
         ));
       }
     };
@@ -177,23 +178,20 @@ class ProfileScaffold extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 0,
-                  child: SizedBox(
-                    width: _size.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: _topChildren ?? []
-                    ),
-                  )
-                )
+                    top: 0,
+                    child: SizedBox(
+                      width: _size.width,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: _topChildren ?? []),
+                    ))
               ],
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 200, 24, 0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: _bottomChildren ?? []
-              ),
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: _bottomChildren ?? []),
             )
           ],
         ),
