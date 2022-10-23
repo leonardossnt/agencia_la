@@ -1,4 +1,5 @@
 import 'package:agencia_la/colors.dart';
+import 'package:agencia_la/components/client_schedule_order_children.dart';
 import 'package:agencia_la/components/navigate_back.dart';
 import 'package:agencia_la/components/schedule_confirm_button.dart';
 import 'package:agencia_la/components/schedule_custom_field.dart';
@@ -78,6 +79,12 @@ class _OrderAddressFormState extends State<OrderAddressForm> {
           onPressed: () {
             var args = {"address": _address.text};
             args.addAll(widget.args);
+
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ClientScheduleOrderChildren(args: args)),
+            );
           },
         ),
         SizedBox(height: 16),
